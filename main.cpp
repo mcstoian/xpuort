@@ -8,7 +8,7 @@
 #include "onnx/shape_inference/implementation.h"
 
 int main(int, char **) {
-  std::ifstream input("/home/harry/onnx-parser/model.onnx",
+  std::ifstream input("model.onnx",
                       std::ios::ate |
                           std::ios::binary); // open file and move current
                                              // position in file to the end

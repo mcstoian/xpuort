@@ -11,13 +11,13 @@ cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DONNX_NAMESPACE=onnx -DCMAKE_BUILD_TYP
 make -j$(nproc)
   ```
   
-# Build onnx_shape_inference
+# Build xpuort
 ```
-git clone git@github.com:harishch4/onnx_shape_inference.git
-cd onnx_shape_inference
+gh repo clone mcstoian/xpuort
+cd xpuort
 mkdir build
 cd build
 cmake ../
 make -j$(nproc)
-./shape_infer
+./xpuort
 ```

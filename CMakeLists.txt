@@ -1,16 +1,16 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(shape_infer VERSION 0.1.0)
+project(xpuort VERSION 0.1.0)
 
 include(CTest)
 enable_testing()
-set(CMAKE_CXX_FLAGS "-DONNX_ML=1 -DONNX_NAMESPACE=onnx")
-set(ONNX_SRC_DIR "/home/harry/github/onnx")
-set(ONNX_BUILD_DIR "/home/harry/github/onnx/.setuptools-cmake-build")
+set(CMAKE_CXX_FLAGS "-DONNX_ML=1 -DONNX_NAMESPACE=onnx -std=c++17 -I/Users/marius/codex/nn/protobuf/src/")
+set(ONNX_SRC_DIR "/Users/marius/codex/nn/onnx")
+set(ONNX_BUILD_DIR "/Users/marius/codex/nn/onnx/build")
 include_directories(${ONNX_BUILD_DIR})
 include_directories(${ONNX_SRC_DIR})
 
-add_executable(shape_infer main.cpp)
-target_link_libraries(shape_infer PUBLIC ${ONNX_BUILD_DIR}/libonnx_proto.so ${ONNX_BUILD_DIR}/libonnx.so -lprotobuf)
+add_executable(xpuort main.cpp)
+target_link_libraries(xpuort PUBLIC ${ONNX_BUILD_DIR}/libonnx_proto.dylib ${ONNX_BUILD_DIR}/libonnx.dylib -lprotobuf)
 
 
 
