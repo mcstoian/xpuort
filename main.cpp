@@ -7,12 +7,17 @@
 #include "onnx/onnx_pb.h"
 #include "onnx/defs/parser.h"
 #include "onnx/shape_inference/implementation.h"
+#include "Xpuort.h"
+#include "Xpuort.cpp"
 
 //-------------------------------------------------------------------------------------
-int main(int, char **) { 
-  std::ifstream input("model.onnx",
-                      std::ios::ate |
-                      std::ios::binary); // open file and move current
+int main(int _argc, char* _argv[]) { 
+  if (_argc < 1) {
+    fprintf(stderr, "usage: %s model.onnx\n", _argv[0]);
+    return 1;
+  }
+
+  std::ifstream input(_argv[0], std::ios::ate | std::ios::binary); // open file and move current
                                              // position in file to the end
 
   std::streamsize size = input.tellg(); // get current position in file
@@ -26,19 +31,9 @@ int main(int, char **) {
   ONNX_NAMESPACE::shape_inference::InferShapes(model);
   auto graph = model.graph();
 
-  for (size_t i = 0; i < graph.value_info_size(); i++) {
-    const onnx::ValueInfoProto info = graph.value_info(i);
-    std::string name = info.name();
-    auto shape = info.type().tensor_type().shape();
-    if (shape.dim_size() > 0) {
-      int size = shape.dim_size();
-      std::cout << name << " : " << shape.dim(0).dim_param();
-      for (int i = 1; i < size; ++i) {
-        std::cout << ", " << shape.dim(i).dim_value();
-      }
-      std::cout << std::endl;
-    }
-  }
-
+  Xpuort _xpuort = new Xpuort(graph);
+  _xpuort::process();
+  
+  return 0;
 }
 //-------------------------------------------------------------------------------------
