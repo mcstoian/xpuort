@@ -1,20 +1,54 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(xpuort VERSION 0.1.0)
 
+set(CMAKE_CXX_STANDARD 17)
+
 include(CTest)
 enable_testing()
-set(CMAKE_CXX_FLAGS "-DONNX_ML=1 -DONNX_NAMESPACE=onnx -std=c++17 -I/Users/marius/projects/protobuf/src/")
-set(ONNX_SRC_DIR "/Users/marius/projects/onnx")
-set(ONNX_BUILD_DIR "/Users/marius/projects/onnx/build")
-set(PROTOBUF_DIR "/Users/marius/projects/protobuf/")
-include_directories(${ONNX_BUILD_DIR})
-include_directories(${ONNX_SRC_DIR})
+
+set(ONNX_NAMESPACE "onnx")
+set(ONNX_ROOT "/home/petalinux/Gitroot/onnx/install/")
+set(PROTOBUF_ROOT "/usr/")
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/model.onnx
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+find_library(PROTOBUF_LIBRARIES
+    NAMES protobuf
+    HINTS ${PROTOBUF_ROOT}/lib
+)
+
+find_path(PROTOBUF_INCLUDE_DIR
+    NAMES google/protobuf/api.pb.h
+    HINTS ${PROTOBUF_ROOT}/include
+)
+
+foreach(libname onnx onnx_proto)
+    unset(libpath CACHE)
+    find_library(ONNX_LIBRARIE_${libname}
+        NAMES ${libname}
+        HINTS ${ONNX_ROOT}/lib)
+    list(APPEND ONNX_LIBRARIES ${ONNX_LIBRARIE_${libname}})
+endforeach()
+
+find_path(ONNX_INCLUDE_DIR
+    NAMES onnx/onnx.pb.h
+    HINTS ${ONNX_ROOT}/include
+)
 
 add_executable(xpuort main.cpp)
-#target_link_libraries(xpuort PUBLIC ${ONNX_BUILD_DIR}/libonnx_proto.dylib ${ONNX_BUILD_DIR}/libonnx.dylib -lprotobuf)
-target_link_libraries(xpuort PUBLIC ${ONNX_BUILD_DIR}/libonnx_proto.dylib ${ONNX_BUILD_DIR}/libonnx.dylib ${PROTOBUF_DIR}/bazel-out/darwin_arm64-fastbuild/bin/libprotobuf.a)
 
+target_compile_definitions(xpuort PRIVATE ONNX_NAMESPACE=${ONNX_NAMESPACE})
 
+target_include_directories(xpuort PUBLIC
+    ${PROTOBUF_INCLUDE_DIR}
+    ${ONNX_INCLUDE_DIR}
+)
+
+target_link_libraries(xpuort PUBLIC
+    ${PROTOBUF_LIBRARIES}
+    ${ONNX_LIBRARIES}
+)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
