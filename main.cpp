@@ -7,8 +7,9 @@
 #include "onnx/onnx_pb.h"
 #include "onnx/defs/parser.h"
 #include "onnx/shape_inference/implementation.h"
-#include "Xpuort.h"
-#include "Xpuort.cpp"
+#include "XpuOrt.h"
+#include "XpuOrt.cpp"
+#include "XpuDriver.cpp"
 
 //-------------------------------------------------------------------------------------
 int main(int _argc, char* _argv[]) { 
@@ -31,7 +32,7 @@ int main(int _argc, char* _argv[]) {
   ONNX_NAMESPACE::shape_inference::InferShapes(model);
   onnx::GraphProto graph = model.graph();
 
-  Xpuort* _xpuort = new Xpuort(graph);
+  XpuOrt* _xpuort = new XpuOrt(graph);
   _xpuort -> process();
 
   return 0;

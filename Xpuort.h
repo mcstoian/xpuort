@@ -7,12 +7,12 @@
 //-------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------
-class Xpuort {
+class XpuOrt {
 
 public:
-  Xpuort(onnx::GraphProto _graph);
+  XpuOrt(onnx::GraphProto _graph);
 
-  ~Xpuort();
+  ~XpuOrt();
 
   void process();
 

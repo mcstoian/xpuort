@@ -7,14 +7,14 @@
 //-------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------
-Xpuort::Xpuort(onnx::GraphProto _graph) {
+XpuOrt::XpuOrt(onnx::GraphProto _graph) {
   graph = _graph;
 }
 
-Xpuort::~Xpuort() {
+XpuOrt::~XpuOrt() {
 }
 
-void Xpuort::process() {
+void XpuOrt::process() {
 
   for (size_t i = 0; i < graph.value_info_size(); i++) {
     const onnx::ValueInfoProto info = graph.value_info(i);
