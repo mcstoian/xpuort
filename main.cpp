@@ -12,8 +12,8 @@
 
 //-------------------------------------------------------------------------------------
 int main(int _argc, char* _argv[]) { 
-  if (_argc < 1) {
-    fprintf(stderr, "usage: %s model.onnx\n", _argv[0]);
+  if (_argc != 1) {
+    fprintf(stderr, "usage: xpuort model.onnx\n");
     return 1;
   }
 
