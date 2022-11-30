@@ -12,12 +12,12 @@
 
 //-------------------------------------------------------------------------------------
 int main(int _argc, char* _argv[]) { 
-  if (_argc != 1) {
+  if (_argc != 2) {
     std::cout << "usage: xpuort model.onnx" << std::endl;
     return 1;
   }
 
-  std::ifstream input(_argv[0], std::ios::ate | std::ios::binary); // open file and move current
+  std::ifstream input(_argv[1], std::ios::ate | std::ios::binary); // open file and move current
                                              // position in file to the end
 
   std::streamsize size = input.tellg(); // get current position in file
