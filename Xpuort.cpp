@@ -14,7 +14,7 @@ Xpuort::Xpuort(onnx::GraphProto _graph) {
 Xpuort::~Xpuort() {
 }
 
-int Xpuort::process() {
+void Xpuort::process() {
 
   for (size_t i = 0; i < graph.value_info_size(); i++) {
     const onnx::ValueInfoProto info = graph.value_info(i);

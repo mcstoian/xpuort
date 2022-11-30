@@ -14,7 +14,7 @@ public:
 
   ~Xpuort();
 
-  int process();
+  void process();
 
   private:
     onnx::GraphProto graph;
