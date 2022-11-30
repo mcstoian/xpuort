@@ -1,3 +1,4 @@
+//-------------------------------------------------------------------------------------
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -7,10 +8,11 @@
 #include "onnx/defs/parser.h"
 #include "onnx/shape_inference/implementation.h"
 
-int main(int, char **) {
+//-------------------------------------------------------------------------------------
+int main(int, char **) { 
   std::ifstream input("model.onnx",
                       std::ios::ate |
-                          std::ios::binary); // open file and move current
+                      std::ios::binary); // open file and move current
                                              // position in file to the end
 
   std::streamsize size = input.tellg(); // get current position in file
@@ -30,12 +32,13 @@ int main(int, char **) {
     auto shape = info.type().tensor_type().shape();
     if (shape.dim_size() > 0) {
       int size = shape.dim_size();
-      std::cout << name << " :" << shape.dim(0).dim_param();
-      for (int i = 1; i < size; ++i)
-      {
-        std::cout << shape.dim(i).dim_value() << ", ";
+      std::cout << name << " : " << shape.dim(0).dim_param();
+      for (int i = 1; i < size; ++i) {
+        std::cout << ", " << shape.dim(i).dim_value();
       }
       std::cout << std::endl;
     }
   }
+
 }
+//-------------------------------------------------------------------------------------
