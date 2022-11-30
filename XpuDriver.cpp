@@ -5,11 +5,6 @@
 		do computations (done automatically)
 		get data out from the xpu system using dma mechanism
  */
-
-
-
-
-
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
@@ -839,7 +834,7 @@ void print_main_mem(void* address, int32_t nr_bytes, uint32_t word_size)
 
 
 
-
+/*
 int main()
 {
     void *xpu_ptr;
@@ -916,7 +911,7 @@ int main()
 
     return 0;
 }
-
+*/
 
 
 
