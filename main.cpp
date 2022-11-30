@@ -13,7 +13,7 @@
 //-------------------------------------------------------------------------------------
 int main(int _argc, char* _argv[]) { 
   if (_argc != 1) {
-    fprintf(stderr, "usage: xpuort model.onnx\n");
+    std::cout << "usage: xpuort model.onnx" << std::endl;
     return 1;
   }
 
