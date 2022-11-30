@@ -29,11 +29,11 @@ int main(int _argc, char* _argv[]) {
   model.ParseFromArray(buffer.data(), size); // parse protobuf
 
   ONNX_NAMESPACE::shape_inference::InferShapes(model);
-  auto graph = model.graph();
+  Onnx::GraphProto graph = model.graph();
 
-  Xpuort _xpuort = new Xpuort(graph);
-  _xpuort::process();
-  
+  Xpuort* _xpuort = new Xpuort(graph);
+  _xpuort -> process();
+
   return 0;
 }
 //-------------------------------------------------------------------------------------
