@@ -10,14 +10,14 @@
 class Xpuort {
 
 public:
-  Xpuort(Onnx::GraphProto _graph);
+  Xpuort(onnx::GraphProto _graph);
 
   ~Xpuort();
 
   int process();
 
   private:
-    Onnx::GraphProto graph;
+    onnx::GraphProto graph;
 };
 
 //-------------------------------------------------------------------------------------
