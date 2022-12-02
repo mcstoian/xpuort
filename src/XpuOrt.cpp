@@ -9,6 +9,7 @@
 //-------------------------------------------------------------------------------------
 XpuOrt::XpuOrt(onnx::GraphProto _graph) {
   graph = _graph;
+  XpuDriver xpuDriver = new XpuDriver();
 }
 
 XpuOrt::~XpuOrt() {
@@ -25,6 +26,7 @@ void XpuOrt::process() {
       std::cout << name << " : " << shape.dim(0).dim_param();
       for (int i = 1; i < size; ++i) {
         std::cout << ", " << shape.dim(i).dim_value();
+//        xpuDriver->write()
       }
       std::cout << std::endl;
     }

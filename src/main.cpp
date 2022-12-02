@@ -9,6 +9,7 @@
 #include "onnx/shape_inference/implementation.h"
 #include "XpuOrt.h"
 #include "XpuOrt.cpp"
+#include "XpuDriver.h"
 #include "XpuDriver.cpp"
 
 //-------------------------------------------------------------------------------------
