@@ -8,11 +8,8 @@ include(CTest)
 enable_testing()
 
 set(ONNX_NAMESPACE "onnx")
-set(ONNX_ROOT "/home/petalinux/Gitroot/onnx/install/")
+set(ONNX_ROOT ${ONNX_ROOT})
 set(PROTOBUF_ROOT "/usr/")
-
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/model.onnx
-     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 find_library(PROTOBUF_LIBRARIES
     NAMES protobuf
