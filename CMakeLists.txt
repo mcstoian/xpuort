@@ -34,7 +34,7 @@ find_path(ONNX_INCLUDE_DIR
     HINTS ${ONNX_ROOT}/include
 )
 
-add_executable(xpuort main.cpp)
+add_executable(xpuort src/main.cpp)
 
 target_compile_definitions(xpuort PRIVATE ONNX_NAMESPACE=${ONNX_NAMESPACE})
 
