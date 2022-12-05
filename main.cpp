@@ -2,15 +2,15 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
-#include "onnx/defs/schema.h"
-#include "onnx/defs/shape_inference.h"
-#include "onnx/onnx_pb.h"
-#include "onnx/defs/parser.h"
-#include "onnx/shape_inference/implementation.h"
-#include "XpuOrt.h"
-#include "XpuOrt.cpp"
-#include "XpuDriver.h"
-#include "XpuDriver.cpp"
+
+#include <onnx/defs/schema.h>
+#include <onnx/defs/shape_inference.h>
+#include <onnx/onnx_pb.h>
+#include <onnx/defs/parser.h>
+#include <onnx/shape_inference/implementation.h>
+
+#include <xpu/XpuOrt.h>
+#include <xpu/XpuDriver.h>
 
 //-------------------------------------------------------------------------------------
 int main(int _argc, char* _argv[]) { 

@@ -1,3 +1,5 @@
+#pragma once
+
 //-------------------------------------------------------------------------------------
 //
 //                             The XPU-ORT Project
@@ -13,13 +15,8 @@
 		get data out from the xpu system using dma mechanism
  */
 //-------------------------------------------------------------------------------------
-#include <stdio.h>
-#include <string.h>
-#include <stdint.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <termios.h>
-#include <sys/mman.h>
+
+
 
 //-------------------------------------------------------------------------------------
 // XPU defines

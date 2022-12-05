@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0.0)
 project(xpuort VERSION 0.1.0)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "-fpermissive")
+set(CMAKE_CXX_FLAGS "-Wno-pointer-arith")
 
 include(CTest)
 enable_testing()
@@ -34,13 +34,18 @@ find_path(ONNX_INCLUDE_DIR
     HINTS ${ONNX_ROOT}/include
 )
 
-add_executable(xpuort src/main.cpp)
+add_executable(xpuort
+    main.cpp
+    xpu/XpuDriver.cpp
+    xpu/XpuOrt.cpp
+)
 
 target_compile_definitions(xpuort PRIVATE ONNX_NAMESPACE=${ONNX_NAMESPACE})
 
 target_include_directories(xpuort PUBLIC
     ${PROTOBUF_INCLUDE_DIR}
     ${ONNX_INCLUDE_DIR}
+    ${CMAKE_SOURCE_DIR}/include
 )
 
 target_link_libraries(xpuort PUBLIC

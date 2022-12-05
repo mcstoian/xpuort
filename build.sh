@@ -3,5 +3,5 @@
 rm -rf build
 mkdir build
 cd build
-cmake ../
+cmake -DONNX_ROOT=/home/petalinux/Gitroot/onnx/install ..
 make -j$(nproc)

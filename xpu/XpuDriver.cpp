@@ -5,6 +5,11 @@
 // See LICENSE.TXT for details.
 //
 //-------------------------------------------------------------------------------------
+
+#include <cstdio>
+#include <cstdint>
+#include <xpu/XpuDriver.h>
+
 void AXI_LITE_write(void * addr, uint32_t value)
 {
 	*((volatile unsigned *)(addr)) = value;
@@ -579,7 +584,7 @@ void dma_reset(uint32_t * dma_ptr)
 
 void print_main_mem(void* address, int32_t nr_bytes, uint32_t word_size)
 {
-    char *p = address;
+    char *p = static_cast<char *>(address);
 
     for (int i = 0; i < nr_bytes; i++)
     {
