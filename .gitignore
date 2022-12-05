@@ -66,4 +66,3 @@ hw/low_level/xpu/xpu.sim/**
 .idea/vcs.xml
 .idea/workspace.xml
 .idea/xpu.iml
-models
