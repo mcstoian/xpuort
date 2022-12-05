@@ -15,7 +15,7 @@
 		get data out from the xpu system using dma mechanism
  */
 //-------------------------------------------------------------------------------------
-
+#include "elf.h"
 
 
 //-------------------------------------------------------------------------------------
@@ -239,9 +239,11 @@ public:
 
  	~XpuDriver();
 
-	void write(void * addr, uint32_t value);
-	uint32_t read(void * addr);
+	void writeOperation(std::string _name);
+	void writeData(void* _address, uint32_t _length);
 
+	void write(void* _address, uint32_t value);
+	uint32_t read(void* _address);
 };
 //-------------------------------------------------------------------------------------
 

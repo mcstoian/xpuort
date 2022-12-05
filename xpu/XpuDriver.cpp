@@ -10,6 +10,17 @@
 #include <cstdint>
 #include <xpu/XpuDriver.h>
 
+//-------------------------------------------------------------------------------------
+void writeOperation(std::string _name) {
+
+}
+
+//-------------------------------------------------------------------------------------
+void writeData(void* _address, uint32_t _length){
+
+}
+
+//-------------------------------------------------------------------------------------
 void AXI_LITE_write(void * addr, uint32_t value)
 {
 	*((volatile unsigned *)(addr)) = value;

@@ -23,6 +23,7 @@ public:
 
   private:
     onnx::GraphProto graph;
+    XpuDriver *xpuDriver;
 };
 
 //-------------------------------------------------------------------------------------
