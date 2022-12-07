@@ -35,13 +35,8 @@ find_path(ONNX_INCLUDE_DIR
     HINTS ${ONNX_ROOT}/include
 )
 
-file(GLOB SRC_DIR
-     "*.h"
-     "*.cpp"
-)
-
 add_executable(xpuort
-    ${SRC_DIR}
+    ${CMAKE_SOURCE_DIR}/src
 )
 
 target_compile_definitions(xpuort PRIVATE ONNX_NAMESPACE=${ONNX_NAMESPACE})
