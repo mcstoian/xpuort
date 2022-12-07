@@ -36,7 +36,7 @@ find_path(ONNX_INCLUDE_DIR
 )
 
 add_executable(xpuort
-    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}/src/*.cpp
 )
 
 target_compile_definitions(xpuort PRIVATE ONNX_NAMESPACE=${ONNX_NAMESPACE})
