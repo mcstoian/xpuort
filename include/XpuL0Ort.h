@@ -1,5 +1,3 @@
-#pragma once
-
 //-------------------------------------------------------------------------------------
 //
 //                             The XPU-ORT Project
@@ -7,24 +5,23 @@
 // See LICENSE.TXT for details.
 //
 //-------------------------------------------------------------------------------------
+#pragma once
+#include <onnx/onnx_pb.h>
+#include <XpuL1Library.h>
 
 //-------------------------------------------------------------------------------------
 
-#include <onnx/onnx_pb.h>
-#include <XpuDriver.h>
-
-class XpuOrt {
+class XpuL0Ort {
 
 public:
-  XpuOrt(onnx::GraphProto _graph);
+  XpuL0Ort(onnx::GraphProto _graph);
 
-  ~XpuOrt();
+  ~XpuL0Ort();
 
   void process();
 
   private:
     onnx::GraphProto graph;
-    XpuDriver *xpuDriver;
+    XpuL1Library *xpuL1Library;
 };
-
 //-------------------------------------------------------------------------------------

@@ -1,11 +1,9 @@
-#pragma once
-
 //-------------------------------------------------------------------------------------
 //
 //                             The XPU-ORT Project
 //
 // See LICENSE.TXT for details.
-//
+// XpuL2Driver -- XPU AXI Driver
 //-------------------------------------------------------------------------------------
 /*
 	example of basic program for the xpu system.
@@ -15,17 +13,7 @@
 		get data out from the xpu system using dma mechanism
  */
 //-------------------------------------------------------------------------------------
-//#include "elf.h"
-#ifdef _MSC_VER
-#define _SCL_SECURE_NO_WARNINGS
-#define ELFIO_NO_INTTYPES
-#endif
-
-#include <iostream>
-#include <elfio/elfio_dump.hpp>
-
-using namespace ELFIO;
-
+#pragma once
 
 //-------------------------------------------------------------------------------------
 // XPU defines
@@ -241,16 +229,14 @@ using namespace ELFIO;
 #define DMA_S2MM_DMACR_X_MM2S_LENGTH_X_LENGTH 0
 
 //-------------------------------------------------------------------------------------
-class XpuDriver {
+class XpuL2Driver {
 
 public:
-	XpuDriver();
+	XpuL2Driver();
 
- 	~XpuDriver();
+ 	~XpuL2Driver();
 
-	void writeOperation(std::string _name);
-	void writeData(void* _address, uint32_t _length);
-
+	void init();
 	void write(void* _address, uint32_t value);
 	uint32_t read(void* _address);
 };

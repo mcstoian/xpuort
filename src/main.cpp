@@ -1,4 +1,10 @@
 //-------------------------------------------------------------------------------------
+//
+//                             The XPU-ORT Project
+//
+// See LICENSE.TXT for details.
+//
+//-------------------------------------------------------------------------------------
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -9,12 +15,11 @@
 #include <onnx/defs/parser.h>
 #include <onnx/shape_inference/implementation.h>
 
-#include <XpuOrt.h>
-#include <XpuDriver.h>
+#include <XpuL0Ort.h>
 
 //-------------------------------------------------------------------------------------
 int main(int _argc, char* _argv[]) { 
-  if (_argc != 2) {
+  if(_argc != 2) {
     std::cout << "usage: xpuort model.onnx" << std::endl;
     return 1;
   }

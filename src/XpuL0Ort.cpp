@@ -5,20 +5,20 @@
 // See LICENSE.TXT for details.
 //
 //-------------------------------------------------------------------------------------
+#include <XpuL0Ort.h>
 
 //-------------------------------------------------------------------------------------
-
-#include <XpuOrt.h>
-
-XpuOrt::XpuOrt(onnx::GraphProto _graph) {
+XpuL0Ort::XpuL0Ort(onnx::GraphProto _graph) {
   graph = _graph;
-  xpuDriver = new XpuDriver();
+  xpuL1Library = new XpuL1Library();
 }
 
-XpuOrt::~XpuOrt() {
+//-------------------------------------------------------------------------------------
+XpuL0Ort::~XpuL0Ort() {
 }
 
-void XpuOrt::process() {
+//-------------------------------------------------------------------------------------
+void XpuL0Ort::process() {
 
   for (size_t i = 0; i < graph.value_info_size(); i++) {
     const onnx::ValueInfoProto info = graph.value_info(i);
@@ -27,7 +27,7 @@ void XpuOrt::process() {
     if (shape.dim_size() > 0) {
       int size = shape.dim_size();
       std::cout << name << " : " << shape.dim(0).dim_param();
-      xpuDriver -> writeOperation(name);
+      xpuL1Library -> writeOperation(name);
       for (int i = 1; i < size; i++) {
         std::cout << ", " << shape.dim(i).dim_value();
 //        xpuDriver -> writeData()
