@@ -8,7 +8,7 @@
 
 #include <cstdio>
 #include <cstdint>
-#include <XpuDriver.h>
+#include <xpu/XpuDriver.h>
 
 //-------------------------------------------------------------------------------------
 XpuDriver::XpuDriver() {

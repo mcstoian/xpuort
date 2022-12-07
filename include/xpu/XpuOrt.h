@@ -11,7 +11,7 @@
 //-------------------------------------------------------------------------------------
 
 #include <onnx/onnx_pb.h>
-#include <XpuDriver.h>
+#include <xpu/XpuDriver.h>
 
 class XpuOrt {
 
