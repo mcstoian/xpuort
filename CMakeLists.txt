@@ -10,6 +10,7 @@ enable_testing()
 set(ONNX_NAMESPACE "onnx")
 set(ONNX_ROOT ${ONNX_ROOT})
 set(PROTOBUF_ROOT "/usr/")
+set(ELFIO_INCLUDE_DIR ${ELFIO_ROOT}/elfio)
 
 find_library(PROTOBUF_LIBRARIES
     NAMES protobuf
@@ -46,6 +47,7 @@ target_include_directories(xpuort PUBLIC
     ${PROTOBUF_INCLUDE_DIR}
     ${ONNX_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}/include
+    ${ELFIO_INCLUDE_DIR}
 )
 
 target_link_libraries(xpuort PUBLIC
