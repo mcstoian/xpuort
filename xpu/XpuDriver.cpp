@@ -14,9 +14,8 @@
 XpuDriver::XpuDriver() {
     elfio reader;
 
-    if ( !reader.load( argv[1] ) ) {
+    if(!reader.load("libxpu.so") ) {
         printf( "File %s is not found or it is not an ELF file\n", argv[1] );
-        return 1;
     }
 
     dump::header( std::cout, reader );
