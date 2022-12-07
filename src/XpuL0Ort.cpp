@@ -27,7 +27,7 @@ void XpuL0Ort::process() {
     if (shape.dim_size() > 0) {
       int size = shape.dim_size();
       std::cout << name << " : " << shape.dim(0).dim_param();
-      xpuL1Library -> writeOperation(name);
+      xpuL1Library -> writeFunction(name);
       for (int i = 1; i < size; i++) {
         std::cout << ", " << shape.dim(i).dim_value();
 //        xpuDriver -> writeData()
