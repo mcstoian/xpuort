@@ -8,7 +8,7 @@
 
 //-------------------------------------------------------------------------------------
 
-#include <xpu/XpuOrt.h>
+#include <XpuOrt.h>
 
 XpuOrt::XpuOrt(onnx::GraphProto _graph) {
   graph = _graph;

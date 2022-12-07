@@ -36,9 +36,7 @@ find_path(ONNX_INCLUDE_DIR
 )
 
 add_executable(xpuort
-    main.cpp
-    xpu/XpuDriver.cpp
-    xpu/XpuOrt.cpp
+    src/*
 )
 
 target_compile_definitions(xpuort PRIVATE ONNX_NAMESPACE=${ONNX_NAMESPACE})

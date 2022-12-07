@@ -9,8 +9,8 @@
 #include <onnx/defs/parser.h>
 #include <onnx/shape_inference/implementation.h>
 
-#include <xpu/XpuOrt.h>
-#include <xpu/XpuDriver.h>
+#include <XpuOrt.h>
+#include <XpuDriver.h>
 
 //-------------------------------------------------------------------------------------
 int main(int _argc, char* _argv[]) { 

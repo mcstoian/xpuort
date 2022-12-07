@@ -8,7 +8,7 @@
 
 #include <cstdio>
 #include <cstdint>
-#include <xpu/XpuDriver.h>
+#include <XpuDriver.h>
 
 //-------------------------------------------------------------------------------------
 XpuDriver::XpuDriver() {
@@ -16,9 +16,19 @@ XpuDriver::XpuDriver() {
 
     if(!reader.load("libxpu.so") ) {
         printf( "File [libxpu.so] is not found!\n");
+        exit(1);
     }
 
     dump::header( std::cout, reader );
+    dump::section_headers( std::cout, reader );
+    dump::segment_headers( std::cout, reader );
+    dump::symbol_tables( std::cout, reader );
+    dump::notes( std::cout, reader );
+    dump::modinfo( std::cout, reader );
+    dump::dynamic_tags( std::cout, reader );
+    dump::section_datas( std::cout, reader );
+    dump::segment_datas( std::cout, reader );
+
 }
 
 //-------------------------------------------------------------------------------------
@@ -29,6 +39,83 @@ void XpuDriver::writeOperation(std::string _name) {
 //-------------------------------------------------------------------------------------
 void XpuDriver::writeData(void* _address, uint32_t _length){
 
+}
+
+//-------------------------------------------------------------------------------------
+int init() {
+    void *xpu_ptr;
+    uint64_t delay;
+	unsigned int xpu_status_reg = 0x0;
+
+
+	int32_t memory_file_descriptor = open("/dev/mem", O_RDWR | O_SYNC);
+
+
+	xpu_ptr = mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED, memory_file_descriptor, XPU_BASE_ADDR );
+	uint32_t * dma_ptr = mmap(NULL, 65535, PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, DMA_BASE_ADDR);
+	uint32_t * data_in_ptr  = mmap(NULL, NR_TRANSACTIONS * sizeof(uint32_t), PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, 0x19000000);
+	uint32_t * data_out_ptr = mmap(NULL, NR_TRANSACTIONS * sizeof(uint32_t), PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, 0x1A000000);
+
+
+
+    for(int i = 0 ; i < NR_TRANSACTIONS; i++ )					// data in generation
+    {
+    	data_in_ptr[i]= 50;
+    }
+
+    memset(data_out_ptr, 0, NR_TRANSACTIONS * sizeof(uint32_t) ); // Clear destination block
+
+    printf("AXI xpu write program + run + dma test.\n");
+
+    printf("Source memory block:      ");
+    print_main_mem(data_in_ptr, NR_TRANSACTIONS * sizeof(uint32_t), sizeof(uint32_t));
+
+    printf("Destination memory block: ");
+    print_main_mem(data_out_ptr, NR_TRANSACTIONS * sizeof(uint32_t), sizeof(uint32_t));
+
+
+
+    dma_reset(dma_ptr);
+
+    xpu_status_reg = *((volatile unsigned *)(xpu_ptr + XPU_STATUS_REG_ADDR_OFFSET));	// write program file
+	printf("before loading program file : %x\n", xpu_status_reg);
+	printf("xpu: start program_file_load \n");
+	XPU_write_program_file_1(xpu_ptr + XPU_FIFO_PROGRAM_ADDR_OFFSET);
+	printf("xpu: end program_file_load \n");
+
+    																					// load data in; ddr->dma->xpu
+	printf("dma->xpu: start load data in \n");
+	DMA_XPU_read(dma_ptr, 0x19000000, NR_TRANSACTIONS * sizeof(uint32_t) );
+	printf("dma->xpu: end load data in\n");
+
+																						// interrupt ack
+	AXI_LITE_write(xpu_ptr + XPU_WRITE_INT_ACK_ADDR,1);
+	for (delay = 0; delay < TIME_DELAY; delay++)
+	{
+		;
+	}
+	xpu_status_reg = AXI_LITE_read(xpu_ptr + XPU_STATUS_REG_ADDR_OFFSET);
+	printf("after interrupt ack: status reg: %x\n", xpu_status_reg);
+
+																						// get data out; xpu -> dma -> ddr
+	printf("xpu->dma: start load data out \n");
+	DMA_XPU_write(dma_ptr, 0x1A000000, NR_TRANSACTIONS * sizeof(uint32_t) );
+	printf("xpu->dma: end load data out\n");
+
+																						// print results
+    printf("Destination memory block: ");
+    print_main_mem(data_out_ptr, NR_TRANSACTIONS * sizeof(uint32_t), sizeof(uint32_t));
+    printf("\n");
+
+    																					// unmap memory regions
+    munmap(dma_ptr,65535);
+    munmap(data_in_ptr,NR_TRANSACTIONS * sizeof(uint32_t));
+    munmap(data_out_ptr,NR_TRANSACTIONS * sizeof(uint32_t));
+    munmap(xpu_ptr,4096);
+
+
+
+    return 0;
 }
 
 //-------------------------------------------------------------------------------------
