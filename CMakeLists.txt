@@ -10,7 +10,7 @@ enable_testing()
 set(ONNX_NAMESPACE "onnx")
 set(ONNX_ROOT ${ONNX_ROOT})
 set(PROTOBUF_ROOT "/usr/")
-set(ELFIO_INCLUDE_DIR ${ELFIO_ROOT}/elfio)
+set(ELFIO_INCLUDE_DIR ${ELFIO_ROOT})
 
 find_library(PROTOBUF_LIBRARIES
     NAMES protobuf
