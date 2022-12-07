@@ -38,8 +38,8 @@ int main(int _argc, char* _argv[]) {
   ONNX_NAMESPACE::shape_inference::InferShapes(model);
   onnx::GraphProto graph = model.graph();
 
-  XpuOrt* _xpuort = new XpuOrt(graph);
-  _xpuort -> process();
+  XpuL0Ort* _xpuL0Ort = new XpuL0Ort(graph);
+  _xpuL0Ort -> process();
 
   return 0;
 }
