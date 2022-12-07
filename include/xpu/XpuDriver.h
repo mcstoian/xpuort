@@ -15,7 +15,16 @@
 		get data out from the xpu system using dma mechanism
  */
 //-------------------------------------------------------------------------------------
-#include "elf.h"
+//#include "elf.h"
+#ifdef _MSC_VER
+#define _SCL_SECURE_NO_WARNINGS
+#define ELFIO_NO_INTTYPES
+#endif
+
+#include <iostream>
+#include <elfio/elfio_dump.hpp>
+
+using namespace ELFIO;
 
 
 //-------------------------------------------------------------------------------------
