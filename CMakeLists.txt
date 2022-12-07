@@ -35,8 +35,13 @@ find_path(ONNX_INCLUDE_DIR
     HINTS ${ONNX_ROOT}/include
 )
 
+file(GLOB SRC_DIR
+     "*.h"
+     "*.cpp"
+)
+
 add_executable(xpuort
-    src/*
+    ${SRC_DIR}
 )
 
 target_compile_definitions(xpuort PRIVATE ONNX_NAMESPACE=${ONNX_NAMESPACE})
