@@ -8,14 +8,14 @@
 
 #include <cstdio>
 #include <cstdint>
-#include <xpu/XpuDriver.h>
+#include <XpuDriver.h>
 
 //-------------------------------------------------------------------------------------
 XpuDriver::XpuDriver() {
     elfio reader;
 
     if(!reader.load("libxpu.so") ) {
-        printf( "File %s is not found or it is not an ELF file\n", argv[1] );
+        printf( "File [libxpu.so] is not found!\n");
     }
 
     dump::header( std::cout, reader );
