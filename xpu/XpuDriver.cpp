@@ -22,12 +22,12 @@ XpuDriver::XpuDriver() {
 }
 
 //-------------------------------------------------------------------------------------
-void writeOperation(std::string _name) {
+void XpuDriver::writeOperation(std::string _name) {
 
 }
 
 //-------------------------------------------------------------------------------------
-void writeData(void* _address, uint32_t _length){
+void XpuDriver::writeData(void* _address, uint32_t _length){
 
 }
 
