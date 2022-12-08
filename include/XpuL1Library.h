@@ -20,9 +20,15 @@ https://elfio.sourceforge.net/elfio.pdf
 
 using namespace ELFIO;
 
+struct FunctionInfo {
+      Elf64_Addr         value,
+      Elf_Xword          size,
+};
+
 //-------------------------------------------------------------------------------------
 class XpuL1Library {
     elfio reader;
+	std::unordered_map<std::string, FunctionInfo> functionMap;
 
 public:
 	XpuL1Library();

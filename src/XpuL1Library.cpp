@@ -5,6 +5,9 @@
 // See LICENSE.TXT for details.
 //
 //-------------------------------------------------------------------------------------
+#include <map>
+#include <iostream>
+#include <cassert>
 #include <cstdio>
 #include <cstdint>
 #include <XpuL1Library.h>
@@ -59,7 +62,7 @@ void XpuL1Library::loadFunctions() {
             if ( sym_no == 0 ) {
                 continue;
             }
-
+/*
             std::cout << "Symbol table (" << sec->get_name() << ")" << std::endl;
             if ( reader.get_class() == ELFCLASS32 ) { // Output for 32-bit
                 std::cout << "[  Nr ] Value      Size       Type    Bind     "
@@ -71,7 +74,7 @@ void XpuL1Library::loadFunctions() {
                        "Type    Bind      Sect"
                     << std::endl
                     << "        Name" << std::endl;
-            }
+            }*/
             for ( Elf_Xword i = 0; i < sym_no; ++i ) {
                 std::string   name;
                 Elf64_Addr    value   = 0;
@@ -80,13 +83,11 @@ void XpuL1Library::loadFunctions() {
                 unsigned char type    = 0;
                 Elf_Half      section = 0;
                 unsigned char other   = 0;
-                symbols.get_symbol( i, name, value, size, bind, type,
-                                    section, other );
-                loadFunction(i, name, value, size, bind, type,
-                              section, reader.get_class() );
+                symbols.get_symbol( i, name, value, size, bind, type, section, other );
+                loadFunction(i, name, value, size, bind, type, section, reader.get_class());
             }
 
-            std::cout << std::endl;
+//            std::cout << std::endl;
         }
     }
 }
@@ -101,8 +102,9 @@ void XpuL1Library::loadFunction(Elf_Xword          no,
                               Elf_Half           section,
                               unsigned int       elf_class ) {
 //        std::ios_base::fmtflags original_flags = out.flags();
-
-        if ( elf_class == ELFCLASS32 ) { // Output for 32-bit
+        functionMap.insert({ name, { value, size } });
+//        functionMap[name] = {value, size};
+/*        if ( elf_class == ELFCLASS32 ) { // Output for 32-bit
             std::cout << "[" << DUMP_DEC_FORMAT( 5 ) << no << "] "
                 << DUMP_HEX0x_FORMAT( 8 ) << value << " "
                 << DUMP_HEX0x_FORMAT( 8 ) << size << " " << DUMP_STR_FORMAT( 7 )
@@ -121,7 +123,7 @@ void XpuL1Library::loadFunction(Elf_Xword          no,
                 << "        " << DUMP_STR_FORMAT( 1 ) << name << " "
                 << std::endl;
         }
-
+*/
 //        out.flags( original_flags );
     }
 
