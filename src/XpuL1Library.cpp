@@ -106,8 +106,8 @@ void XpuL1Library::loadFunction(Elf_Xword          no,
             std::cout << "[" << DUMP_DEC_FORMAT( 5 ) << no << "] "
                 << DUMP_HEX0x_FORMAT( 8 ) << value << " "
                 << DUMP_HEX0x_FORMAT( 8 ) << size << " " << DUMP_STR_FORMAT( 7 )
-                << str_symbol_type( type ) << " " << DUMP_STR_FORMAT( 8 )
-                << str_symbol_bind( bind ) << " " << DUMP_DEC_FORMAT( 5 )
+//                << str_symbol_type( type ) << " " << DUMP_STR_FORMAT( 8 )
+//                << str_symbol_bind( bind ) << " " << DUMP_DEC_FORMAT( 5 )
                 << section << " " << DUMP_STR_FORMAT( 1 ) << name << " "
                 << std::endl;
         }
@@ -115,8 +115,8 @@ void XpuL1Library::loadFunction(Elf_Xword          no,
             std::cout << "[" << DUMP_DEC_FORMAT( 5 ) << no << "] "
                 << DUMP_HEX0x_FORMAT( 16 ) << value << " "
                 << DUMP_HEX0x_FORMAT( 16 ) << size << " "
-                << DUMP_STR_FORMAT( 7 ) << str_symbol_type( type ) << " "
-                << DUMP_STR_FORMAT( 8 ) << str_symbol_bind( bind ) << " "
+//                << DUMP_STR_FORMAT( 7 ) << str_symbol_type( type ) << " "
+//                << DUMP_STR_FORMAT( 8 ) << str_symbol_bind( bind ) << " "
                 << DUMP_DEC_FORMAT( 5 ) << section << " " << std::endl
                 << "        " << DUMP_STR_FORMAT( 1 ) << name << " "
                 << std::endl;
