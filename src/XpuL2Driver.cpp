@@ -102,7 +102,7 @@ void XpuL2Driver::write(void * addr, uint32_t value)
 }
 
 //-------------------------------------------------------------------------------------
-uint32_t XpuL2Driver::AXI_LITE_read(void * addr)
+uint32_t XpuL2Driver::read(void * addr)
 {
 	uint32_t return_value;
 	return_value = *((volatile unsigned *)(addr));
@@ -112,7 +112,7 @@ uint32_t XpuL2Driver::AXI_LITE_read(void * addr)
 
 
 //-------------------------------------------------------------------------------------
-void XPU_write_program_file_1(void * addr) // data in ; ixload+ data in ; data out; addr regs: 0-100
+void XpuL2Driver::XPU_write_program_file_1(void * addr) // data in ; ixload+ data in ; data out; addr regs: 0-100
 {
 	// algorithm:
 		// data_out_from_dma = ixload + data_in_from_dma
@@ -277,7 +277,7 @@ void XPU_write_program_file_1(void * addr) // data in ; ixload+ data in ; data o
 }
 
 //-------------------------------------------------------------------------------------
-void XPU_write_program_file_2(void * addr) // data in ; no compute ; data out; addr regs: 0-0
+void XpuL2Driver::XPU_write_program_file_2(void * addr) // data in ; no compute ; data out; addr regs: 0-0
 {
 	AXI_LITE_write(addr, 0x6f000000);
 	AXI_LITE_write(addr, 0x10000000);
@@ -431,7 +431,7 @@ void XPU_write_program_file_2(void * addr) // data in ; no compute ; data out; a
 
 
 //-------------------------------------------------------------------------------------
-void dma_mm2s_status(uint32_t * dma_ptr)
+void XpuL2Driver::dma_mm2s_status(uint32_t * dma_ptr)
 {
 	uint32_t status_reg = AXI_LITE_read(dma_ptr + (DMA_MM2S_DMASR_OFFSET>>2));
     printf("MM2S status (addr offset: 0x%x status:0x%x): ", DMA_MM2S_DMASR_OFFSET, status_reg);
@@ -484,7 +484,7 @@ void dma_mm2s_status(uint32_t * dma_ptr)
 
 
 //-------------------------------------------------------------------------------------
-void dma_s2mm_status(uint32_t * dma_ptr)
+void XpuL2Driver::dma_s2mm_status(uint32_t * dma_ptr)
 {
 	uint32_t status_reg = AXI_LITE_read(dma_ptr + (DMA_S2MM_DMASR_OFFSET>>2));
     printf("S2MM status (addr offset: 0x%x status: 0x%x): ", DMA_S2MM_DMASR_OFFSET, status_reg);
@@ -537,7 +537,7 @@ void dma_s2mm_status(uint32_t * dma_ptr)
 
 
 //-------------------------------------------------------------------------------------
-void print_all_registers_mm2s(void * dma_ptr, int tag)
+void XpuL2Driver::print_all_registers_mm2s(void * dma_ptr, int tag)
 {
 	uint32_t register_read_value;
 
@@ -565,7 +565,7 @@ void print_all_registers_mm2s(void * dma_ptr, int tag)
 
 
 //-------------------------------------------------------------------------------------
-void print_all_registers_s2mm(void * dma_ptr, int tag)
+void XpuL2Driver::print_all_registers_s2mm(void * dma_ptr, int tag)
 {
 	uint32_t register_read_value;
 
@@ -593,7 +593,7 @@ void print_all_registers_s2mm(void * dma_ptr, int tag)
 
 
 //-------------------------------------------------------------------------------------
-void dma_mm2s_wait_transfers_complete(uint32_t * dma_ptr)
+void XpuL2Driver::dma_mm2s_wait_transfers_complete(uint32_t * dma_ptr)
 {
 	uint32_t mm2s_status =  AXI_LITE_read(dma_ptr + (DMA_MM2S_DMASR_OFFSET>>2) );
 
@@ -607,7 +607,7 @@ void dma_mm2s_wait_transfers_complete(uint32_t * dma_ptr)
 
 
 //-------------------------------------------------------------------------------------
-void dma_s2mm_wait_transfers_complete(uint32_t * dma_ptr)
+void XpuL2Driver::dma_s2mm_wait_transfers_complete(uint32_t * dma_ptr)
 {
 	uint32_t s2mm_status = AXI_LITE_read(dma_ptr + (DMA_S2MM_DMASR_OFFSET>>2) );
 
@@ -621,7 +621,7 @@ void dma_s2mm_wait_transfers_complete(uint32_t * dma_ptr)
 
 
 //-------------------------------------------------------------------------------------
-void DMA_XPU_read(uint32_t * dma_ptr, uint32_t ddr_start_addr, uint32_t transfer_length)
+void XpuL2Driver::DMA_XPU_read(uint32_t * dma_ptr, uint32_t ddr_start_addr, uint32_t transfer_length)
 {
 
 	AXI_LITE_write(dma_ptr + (DMA_MM2S_DMACR_OFFSET>>2), 0);
@@ -644,7 +644,7 @@ void DMA_XPU_read(uint32_t * dma_ptr, uint32_t ddr_start_addr, uint32_t transfer
 
 
 //-------------------------------------------------------------------------------------
-void DMA_XPU_write(uint32_t * dma_ptr, uint32_t ddr_start_addr, uint32_t transfer_length )
+void XpuL2Driver::DMA_XPU_write(uint32_t * dma_ptr, uint32_t ddr_start_addr, uint32_t transfer_length )
 {
 	printf("Writing destination address\n");
 	AXI_LITE_write(dma_ptr + (DMA_S2MM_DA_LSB_OFFSET>>2), ddr_start_addr);
@@ -664,7 +664,7 @@ void DMA_XPU_write(uint32_t * dma_ptr, uint32_t ddr_start_addr, uint32_t transfe
 
 
 //-------------------------------------------------------------------------------------
-void dma_reset(uint32_t * dma_ptr)
+void XpuL2Driver::dma_reset(uint32_t * dma_ptr)
 {
 	printf("Resetting DMA\n");
 	AXI_LITE_write(dma_ptr + (DMA_MM2S_DMACR_OFFSET>>2), 1 << DMA_MM2S_DMACR_X_RESET_LOC);
@@ -676,7 +676,7 @@ void dma_reset(uint32_t * dma_ptr)
 
 
 //-------------------------------------------------------------------------------------
-void print_main_mem(void* address, int32_t nr_bytes, uint32_t word_size)
+void XpuL2Driver::print_main_mem(void* address, int32_t nr_bytes, uint32_t word_size)
 {
     char *p = static_cast<char *>(address);
 
@@ -699,87 +699,5 @@ void print_main_mem(void* address, int32_t nr_bytes, uint32_t word_size)
 
     printf("\n");
 }
+
 //-------------------------------------------------------------------------------------
-
-
-
-
-/*
-int main()
-{
-    void *xpu_ptr;
-    uint64_t delay;
-	unsigned int xpu_status_reg = 0x0;
-
-
-	int32_t memory_file_descriptor = open("/dev/mem", O_RDWR | O_SYNC);
-
-
-	xpu_ptr = mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED, memory_file_descriptor, XPU_BASE_ADDR );
-	uint32_t * dma_ptr = mmap(NULL, 65535, PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, DMA_BASE_ADDR);
-	uint32_t * data_in_ptr  = mmap(NULL, NR_TRANSACTIONS * sizeof(uint32_t), PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, 0x19000000);
-	uint32_t * data_out_ptr = mmap(NULL, NR_TRANSACTIONS * sizeof(uint32_t), PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, 0x1A000000);
-
-
-
-    for(int i = 0 ; i < NR_TRANSACTIONS; i++ )					// data in generation
-    {
-    	data_in_ptr[i]= 50;
-    }
-
-    memset(data_out_ptr, 0, NR_TRANSACTIONS * sizeof(uint32_t) ); // Clear destination block
-
-    printf("AXI xpu write program + run + dma test.\n");
-
-    printf("Source memory block:      ");
-    print_main_mem(data_in_ptr, NR_TRANSACTIONS * sizeof(uint32_t), sizeof(uint32_t));
-
-    printf("Destination memory block: ");
-    print_main_mem(data_out_ptr, NR_TRANSACTIONS * sizeof(uint32_t), sizeof(uint32_t));
-
-
-
-    dma_reset(dma_ptr);
-
-    xpu_status_reg = *((volatile unsigned *)(xpu_ptr + XPU_STATUS_REG_ADDR_OFFSET));	// write program file
-	printf("before loading program file : %x\n", xpu_status_reg);
-	printf("xpu: start program_file_load \n");
-	XPU_write_program_file_1(xpu_ptr + XPU_FIFO_PROGRAM_ADDR_OFFSET);
-	printf("xpu: end program_file_load \n");
-
-    																					// load data in; ddr->dma->xpu
-	printf("dma->xpu: start load data in \n");
-	DMA_XPU_read(dma_ptr, 0x19000000, NR_TRANSACTIONS * sizeof(uint32_t) );
-	printf("dma->xpu: end load data in\n");
-
-																						// interrupt ack
-	AXI_LITE_write(xpu_ptr + XPU_WRITE_INT_ACK_ADDR,1);
-	for (delay = 0; delay < TIME_DELAY; delay++)
-	{
-		;
-	}
-	xpu_status_reg = AXI_LITE_read(xpu_ptr + XPU_STATUS_REG_ADDR_OFFSET);
-	printf("after interrupt ack: status reg: %x\n", xpu_status_reg);
-
-																						// get data out; xpu -> dma -> ddr
-	printf("xpu->dma: start load data out \n");
-	DMA_XPU_write(dma_ptr, 0x1A000000, NR_TRANSACTIONS * sizeof(uint32_t) );
-	printf("xpu->dma: end load data out\n");
-
-																						// print results
-    printf("Destination memory block: ");
-    print_main_mem(data_out_ptr, NR_TRANSACTIONS * sizeof(uint32_t), sizeof(uint32_t));
-    printf("\n");
-
-    																					// unmap memory regions
-    munmap(dma_ptr,65535);
-    munmap(data_in_ptr,NR_TRANSACTIONS * sizeof(uint32_t));
-    munmap(data_out_ptr,NR_TRANSACTIONS * sizeof(uint32_t));
-    munmap(xpu_ptr,4096);
-
-
-
-    return 0;
-}
-*/
-
