@@ -8,6 +8,12 @@
 #include <cstdio>
 #include <cstdint>
 #include <XpuL1Library.h>
+#include <algorithm>
+#include <string>
+#include <ostream>
+#include <sstream>
+#include <iomanip>
+#include <elfio/elfio.hpp>
 #include <elfio/elfio_dump.hpp>
 
 #define DUMP_DEC_FORMAT( width ) \
