@@ -28,10 +28,7 @@ struct FunctionInfo {
 
 //-------------------------------------------------------------------------------------
 class XpuL1Library {
-    elfio reader;
-	std::unordered_map<std::string, FunctionInfo> functionMap;
-	XpuL2Driver xpuL2Driver;
-	
+
 public:
 	XpuL1Library();
 
@@ -48,6 +45,12 @@ public:
                               unsigned int       elf_class );
 	void writeFunction(std::string _name);
 	void writeData(void* _address, uint32_t _length);
+
+private:
+    elfio reader;
+	std::unordered_map<std::string, FunctionInfo> functionMap;
+	XpuL2Driver* xpuL2Driver;
+
 };
 //-------------------------------------------------------------------------------------
 

@@ -141,7 +141,7 @@ void XpuL1Library::writeFunction(std::string _name) {
         Elf64_Addr _address = _iterator->second.address;
         Elf_Xword _length= _iterator->second.length;
         for(int i = 0; i < _length; i++){
-            uint32_t _value = *(_address + 8 * i);
+            uint32_t _value = *((long long unsigned int&)_address + 8 * i);
             xpuL2Driver->AXI_LITE_write(0, _value);
         }        
     }
