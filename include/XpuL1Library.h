@@ -17,6 +17,7 @@ https://elfio.sourceforge.net/elfio.pdf
 
 #include <iostream>
 #include <elfio/elfio_dump.hpp>
+#include <XpuL2Driver.h>
 
 using namespace ELFIO;
 
@@ -29,7 +30,8 @@ struct FunctionInfo {
 class XpuL1Library {
     elfio reader;
 	std::unordered_map<std::string, FunctionInfo> functionMap;
-
+	XpuL2Driver xpuL2Driver;
+	
 public:
 	XpuL1Library();
 

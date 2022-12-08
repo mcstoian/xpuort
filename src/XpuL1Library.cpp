@@ -11,6 +11,7 @@
 #include <cstdio>
 #include <cstdint>
 #include <XpuL1Library.h>
+#include <XpuL2Driver.h>
 #include <algorithm>
 #include <string>
 #include <ostream>
@@ -30,6 +31,7 @@
 
 //-------------------------------------------------------------------------------------
 XpuL1Library::XpuL1Library() {
+    xpuL2Driver = new XpuL2Driver();
 
     if(!reader.load("libxpu.so") ) {
         printf( "File [libxpu.so] is not found!\n");
@@ -131,17 +133,17 @@ void XpuL1Library::loadFunction(Elf_Xword          no,
 //-------------------------------------------------------------------------------------
 void XpuL1Library::writeFunction(std::string _name) {
     std::cout << "Loading " << _name << std::endl;
-    auto& _functionInfo = functionMap[_name];
-    if(_functionInfo == NULL){
+    std::unordered_map<std::string, FunctionInfo>::const_iterator _iterator = functionMap.find(_name);
+    if(_iterator == functionMap.end()){
         std::cout << "Could not find [" << _name << "] in library" << std::endl;
         exit(1);
-    }
-
-    Elf64_Addr _address = _functionInfo.address;
-    Elf_Xword _length= _functionInfo.length;
-    for(int i = 0; i < _length; i++){
-        uint32_t _value = _address[i];
-        xpuL2Driver->AXI_LITE_write(0, _value);
+    } else {
+        Elf64_Addr _address = _iterator->second.address;
+        Elf_Xword _length= _iterator->second.length;
+        for(int i = 0; i < _length; i++){
+            uint32_t _value = *(_address + 8 * i);
+            xpuL2Driver->AXI_LITE_write(0, _value);
+        }        
     }
 }
 
