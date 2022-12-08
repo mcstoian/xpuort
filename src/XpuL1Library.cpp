@@ -12,7 +12,6 @@
 
 //-------------------------------------------------------------------------------------
 XpuL1Library::XpuL1Library() {
-    elfio reader;
 
     if(!reader.load("libxpu.so") ) {
         printf( "File [libxpu.so] is not found!\n");

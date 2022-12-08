@@ -22,6 +22,7 @@ using namespace ELFIO;
 
 //-------------------------------------------------------------------------------------
 class XpuL1Library {
+    elfio reader;
 
 public:
 	XpuL1Library();
