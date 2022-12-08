@@ -10,6 +10,15 @@
 #include <XpuL1Library.h>
 #include <elfio/elfio_dump.hpp>
 
+#define DUMP_DEC_FORMAT( width ) \
+    std::setw( width ) << std::setfill( ' ' ) << std::dec << std::right
+#define DUMP_HEX0x_FORMAT( width ) \
+    "0x" << std::setw( width ) << std::setfill( '0' ) << std::hex << std::right
+#define DUMP_HEX_FORMAT( width ) \
+    std::setw( width ) << std::setfill( '0' ) << std::hex << std::right
+#define DUMP_STR_FORMAT( width ) \
+    std::setw( width ) << std::setfill( ' ' ) << std::hex << std::left
+
 //-------------------------------------------------------------------------------------
 XpuL1Library::XpuL1Library() {
 
