@@ -237,8 +237,8 @@ public:
  	~XpuL2Driver();
 
 	void init();
-	void write(void* _address, uint32_t value);
-	uint32_t read(void* _address);
+	void AXI_LITE_write(void* _address, uint32_t value);
+	uint32_t AXI_LITE_read(void* _address);
 
 	void XPU_write_program_file_1(void * addr); // data in ; ixload+ data in ; data out; addr regs: 0-100
 	void XPU_write_program_file_2(void * addr); // data in ; no compute ; data out; addr regs: 0-0

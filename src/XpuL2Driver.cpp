@@ -95,14 +95,14 @@ void XpuL2Driver::init() {
 }
 
 //-------------------------------------------------------------------------------------
-void XpuL2Driver::write(void * addr, uint32_t value)
+void XpuL2Driver::AXI_LITE_write(void * addr, uint32_t value)
 {
 	*((volatile unsigned *)(addr)) = value;
 	return;
 }
 
 //-------------------------------------------------------------------------------------
-uint32_t XpuL2Driver::read(void * addr)
+uint32_t XpuL2Driver::AXI_LITE_read(void * addr)
 {
 	uint32_t return_value;
 	return_value = *((volatile unsigned *)(addr));
