@@ -21,8 +21,8 @@ https://elfio.sourceforge.net/elfio.pdf
 using namespace ELFIO;
 
 struct FunctionInfo {
-      Elf64_Addr         value,
-      Elf_Xword          size,
+      Elf64_Addr         value;
+      Elf_Xword          size;
 };
 
 //-------------------------------------------------------------------------------------
