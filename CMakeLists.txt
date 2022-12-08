@@ -36,10 +36,10 @@ find_path(ONNX_INCLUDE_DIR
 )
 
 add_executable(xpuort
-    ${CMAKE_SOURCE_DIR}/src/main.cpp
-    ${CMAKE_SOURCE_DIR}/src/XpuL0Ort.cpp
-    ${CMAKE_SOURCE_DIR}/src/XpuL1Library.cpp
     ${CMAKE_SOURCE_DIR}/src/XpuL2Driver.cpp
+    ${CMAKE_SOURCE_DIR}/src/XpuL1Library.cpp
+    ${CMAKE_SOURCE_DIR}/src/XpuL0Ort.cpp
+    ${CMAKE_SOURCE_DIR}/src/main.cpp
 )
 
 target_compile_definitions(xpuort PRIVATE ONNX_NAMESPACE=${ONNX_NAMESPACE})

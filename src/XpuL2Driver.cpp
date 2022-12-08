@@ -7,6 +7,13 @@
 //-------------------------------------------------------------------------------------
 #include <cstdio>
 #include <cstdint>
+#include <stdio.h>
+#include <string.h>
+#include <stdint.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <termios.h>
+#include <sys/mman.h>
 #include <XpuL2Driver.h>
 
 //-------------------------------------------------------------------------------------
