@@ -6,11 +6,7 @@
 //
 //-------------------------------------------------------------------------------------
 /*
-	example of basic program for the xpu system.
-		write program file into xpu
-		get data in into the xpu system using dma mechanism
-		do computations (done automatically)
-		get data out from the xpu system using dma mechanism
+https://elfio.sourceforge.net/elfio.pdf
  */
 //-------------------------------------------------------------------------------------
 #pragma once
@@ -32,6 +28,15 @@ public:
 
  	~XpuL1Library();
 
+	void loadFunctions();
+	void loadFunction(Elf_Xword no,
+                              const std::string& name,
+                              Elf64_Addr         value,
+                              Elf_Xword          size,
+                              unsigned char      bind,
+                              unsigned char      type,
+                              Elf_Half           section,
+                              unsigned int       elf_class );
 	void writeFunction(std::string _name);
 	void writeData(void* _address, uint32_t _length);
 };
