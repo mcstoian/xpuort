@@ -102,6 +102,7 @@ void XpuL1Library::loadFunction(Elf_Xword          no,
                               Elf_Half           section,
                               unsigned int       elf_class ) {
 //        std::ios_base::fmtflags original_flags = out.flags();
+        std::cout << "[" << name << "]: " << DUMP_HEX0x_FORMAT( 16 ) << value << " : "<< DUMP_HEX0x_FORMAT( 16 ) << size << std::endl;
         functionMap.insert({ name, { value, size } });
 //        functionMap[name] = {value, size};
 /*        if ( elf_class == ELFCLASS32 ) { // Output for 32-bit
@@ -139,7 +140,7 @@ void XpuL1Library::writeFunction(std::string _name) {
     Elf64_Addr _address = _functionInfo.address;
     Elf_Xword _length= _functionInfo.length;
     for(int i = 0; i < _length; i++){
-        uint32_t _value = reader.
+        uint32_t _value = _address[i];
         xpuL2Driver->AXI_LITE_write(0, _value);
     }
 }
