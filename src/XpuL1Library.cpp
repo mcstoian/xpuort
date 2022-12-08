@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <cstdint>
 #include <XpuL1Library.h>
+#include <elfio/elfio_dump.hpp>
 
 //-------------------------------------------------------------------------------------
 XpuL1Library::XpuL1Library() {
