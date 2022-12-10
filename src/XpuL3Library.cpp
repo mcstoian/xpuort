@@ -20,7 +20,7 @@
 XpuL3Library::XpuL3Library() {
     xpuL4Driver = new XpuL4Driver();
 
-    if(!reader.load("libxpu.so") ) {
+    if(!reader.load("lib/libxpu.so") ) {
         printf( "File [libxpu.so] is not found!\n");
         exit(1);
     } else {
