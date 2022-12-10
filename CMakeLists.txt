@@ -38,7 +38,9 @@ find_path(ONNX_INCLUDE_DIR
 add_executable(xpuort
     ${CMAKE_SOURCE_DIR}/src/XpuL4Driver.cpp
     ${CMAKE_SOURCE_DIR}/src/XpuL3Library.cpp
+    ${CMAKE_SOURCE_DIR}/src/XpuL2Resolver.cpp
     ${CMAKE_SOURCE_DIR}/src/XpuL1OnnxRuntime.cpp
+    ${CMAKE_SOURCE_DIR}/src/XpuL0OnnxGraph.cpp
     ${CMAKE_SOURCE_DIR}/src/main.cpp
 )
 

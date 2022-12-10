@@ -19,7 +19,7 @@ public:
 	void uploadData(void* _address, uint32_t _length);
 
 private:
-	XpuL3Library* xpuL2Library;
+	XpuL3Library* xpuL3Library;
 
 };
 //-------------------------------------------------------------------------------------

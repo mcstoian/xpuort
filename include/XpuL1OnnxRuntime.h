@@ -6,7 +6,6 @@
 //
 //-------------------------------------------------------------------------------------
 #pragma once
-#include <onnx/onnx_pb.h>
 #include <XpuL2Resolver.h>
 
 //-------------------------------------------------------------------------------------
@@ -14,14 +13,13 @@
 class XpuL1OnnxRuntime {
 
 public:
-  XpuL1OnnxRuntime(onnx::GraphProto _graph);
+  XpuL1OnnxRuntime();
 
   ~XpuL1OnnxRuntime();
 
-  void process();
+  void run(std::string _name);
 
   private:
-    onnx::GraphProto graph;
     XpuL2Resolver *xpuL2Resolver;
 };
 //-------------------------------------------------------------------------------------

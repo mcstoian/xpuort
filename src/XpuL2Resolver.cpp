@@ -11,7 +11,7 @@
 #include <cstdio>
 #include <cstdint>
 #include <XpuL3Library.h>
-#include <XpuL4Driver.h>
+#include <XpuL2Resolver.h>
 #include <algorithm>
 #include <string>
 #include <ostream>
@@ -20,11 +20,11 @@
 
 //-------------------------------------------------------------------------------------
 XpuL2Resolver::XpuL2Resolver() {
-    xpuL2Library = new XpuL3Library();
+    xpuL3Library = new XpuL3Library();
 }
 
 //-------------------------------------------------------------------------------------
-void XpuL2Resolver::uploadFunction() {
+void XpuL2Resolver::uploadFunction(std::string _name) {
 
 }
 

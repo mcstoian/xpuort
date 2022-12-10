@@ -3,5 +3,6 @@
 rm -rf build
 mkdir build
 cd build
-cmake -DONNX_ROOT=/home/petalinux/Gitroot/onnx/install -DELFIO_ROOT=/home/petalinux/Gitroot/ELFIO/ ..
+export ONNX_ROOT=${GIT_ROOT}/onnx/install/
+cmake -DONNX_ROOT=${GIT_ROOT}/onnx/install/ -DELFIO_ROOT=${GIT_ROOT}/ELFIO/ ..
 make -j$(nproc)

@@ -5,20 +5,7 @@
 // See LICENSE.TXT for details.
 //
 //-------------------------------------------------------------------------------------
-#include <map>
-#include <iostream>
-#include <cassert>
-#include <cstdio>
-#include <cstdint>
 #include <XpuL3Library.h>
-#include <XpuL4Driver.h>
-#include <algorithm>
-#include <string>
-#include <ostream>
-#include <sstream>
-#include <iomanip>
-#include <elfio/elfio.hpp>
-#include <elfio/elfio_dump.hpp>
 
 #define DUMP_DEC_FORMAT( width ) \
     std::setw( width ) << std::setfill( ' ' ) << std::dec << std::right
@@ -31,7 +18,7 @@
 
 //-------------------------------------------------------------------------------------
 XpuL3Library::XpuL3Library() {
-    XpuL4Driver = new XpuL4Driver();
+    xpuL4Driver = new XpuL4Driver();
 
     if(!reader.load("libxpu.so") ) {
         printf( "File [libxpu.so] is not found!\n");
@@ -142,7 +129,7 @@ void XpuL3Library::writeFunction(std::string _name) {
         Elf_Xword _length= _iterator->second.length;
         for(int i = 0; i < _length; i++){
             uint32_t _value = *reinterpret_cast<int *>(_address + (8 * i));
-            XpuL4Driver->AXI_LITE_write(0, _value);
+            xpuL4Driver->AXI_LITE_write(0, _value);
         }        
     }
 }

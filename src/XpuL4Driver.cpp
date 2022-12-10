@@ -5,6 +5,7 @@
 // See LICENSE.TXT for details.
 //
 //-------------------------------------------------------------------------------------
+#include <stdio.h>
 #include <cstdio>
 #include <cstdint>
 #include <stdio.h>
@@ -23,7 +24,7 @@ XpuL4Driver::XpuL4Driver() {
 
 //-------------------------------------------------------------------------------------
 void XpuL4Driver::init() {
-    void *xpu_ptr;
+    uint32_t* xpu_ptr;
     uint64_t delay;
 	unsigned int xpu_status_reg = 0x0;
 
@@ -31,10 +32,10 @@ void XpuL4Driver::init() {
 	int32_t memory_file_descriptor = open("/dev/mem", O_RDWR | O_SYNC);
 
 
-	xpu_ptr = mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED, memory_file_descriptor, XPU_BASE_ADDR );
-	uint32_t * dma_ptr = mmap(NULL, 65535, PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, DMA_BASE_ADDR);
-	uint32_t * data_in_ptr  = mmap(NULL, NR_TRANSACTIONS * sizeof(uint32_t), PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, 0x19000000);
-	uint32_t * data_out_ptr = mmap(NULL, NR_TRANSACTIONS * sizeof(uint32_t), PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, 0x1A000000);
+	xpu_ptr = (uint32_t*)mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED, memory_file_descriptor, XPU_BASE_ADDR );
+	uint32_t * dma_ptr = (uint32_t*)mmap(NULL, 65535, PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, DMA_BASE_ADDR);
+	uint32_t * data_in_ptr  = (uint32_t*)mmap(NULL, NR_TRANSACTIONS * sizeof(uint32_t), PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, 0x19000000);
+	uint32_t * data_out_ptr = (uint32_t*)mmap(NULL, NR_TRANSACTIONS * sizeof(uint32_t), PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, 0x1A000000);
 
 
 
@@ -529,7 +530,7 @@ void XpuL4Driver::dma_s2mm_status(uint32_t * dma_ptr)
 }
 
 //-------------------------------------------------------------------------------------
-void XpuL4Driver::print_all_registers_mm2s(void * dma_ptr, int tag)
+void XpuL4Driver::print_all_registers_mm2s(uint32_t* dma_ptr, int tag)
 {
 	uint32_t register_read_value;
 
@@ -555,7 +556,7 @@ void XpuL4Driver::print_all_registers_mm2s(void * dma_ptr, int tag)
 }
 
 //-------------------------------------------------------------------------------------
-void XpuL4Driver::print_all_registers_s2mm(void * dma_ptr, int tag)
+void XpuL4Driver::print_all_registers_s2mm(uint32_t* dma_ptr, int tag)
 {
 	uint32_t register_read_value;
 
@@ -626,7 +627,7 @@ void XpuL4Driver::DMA_XPU_read(uint32_t * dma_ptr, uint32_t ddr_start_addr, uint
 }
 
 //-------------------------------------------------------------------------------------
-void XpuL4Driver::DMA_XPU_write(uint32_t * dma_ptr, uint32_t ddr_start_addr, uint32_t transfer_length )
+void XpuL4Driver::DMA_XPU_write(uint32_t* dma_ptr, uint32_t ddr_start_addr, uint32_t transfer_length )
 {
 	printf("Writing destination address\n");
 	AXI_LITE_write(dma_ptr + (DMA_S2MM_DA_LSB_OFFSET>>2), ddr_start_addr);

@@ -10,12 +10,26 @@ https://elfio.sourceforge.net/elfio.pdf
  */
 //-------------------------------------------------------------------------------------
 #pragma once
+#include <map>
+#include <unordered_map>
+#include <iostream>
+#include <cassert>
+#include <cstdio>
+#include <cstdint>
+#include <XpuL4Driver.h>
+#include <algorithm>
+#include <string>
+#include <ostream>
+#include <sstream>
+#include <iomanip>
+#include <elfio/elfio.hpp>
+#include <elfio/elfio_dump.hpp>
+
 #ifdef _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
 #define ELFIO_NO_INTTYPES
 #endif
 
-#include <iostream>
 #include <elfio/elfio_dump.hpp>
 #include <XpuL4Driver.h>
 
@@ -49,7 +63,7 @@ public:
 private:
     elfio reader;
 	std::unordered_map<std::string, FunctionInfo> functionMap;
-	XpuL4Driver* XpuL4Driver;
+	XpuL4Driver* xpuL4Driver;
 
 };
 //-------------------------------------------------------------------------------------
