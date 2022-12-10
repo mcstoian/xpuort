@@ -10,8 +10,8 @@
 #include <cassert>
 #include <cstdio>
 #include <cstdint>
-#include <XpuL1Library.h>
-#include <XpuL2Driver.h>
+#include <XpuL3Library.h>
+#include <XpuL4Driver.h>
 #include <algorithm>
 #include <string>
 #include <ostream>
@@ -30,8 +30,8 @@
     std::setw( width ) << std::setfill( ' ' ) << std::hex << std::left
 
 //-------------------------------------------------------------------------------------
-XpuL1Library::XpuL1Library() {
-    xpuL2Driver = new XpuL2Driver();
+XpuL3Library::XpuL3Library() {
+    XpuL4Driver = new XpuL4Driver();
 
     if(!reader.load("libxpu.so") ) {
         printf( "File [libxpu.so] is not found!\n");
@@ -54,7 +54,7 @@ XpuL1Library::XpuL1Library() {
 }
 
 //-------------------------------------------------------------------------------------
-void XpuL1Library::loadFunctions() {
+void XpuL3Library::loadFunctions() {
     for ( const auto& sec : reader.sections ) { // For all sections
         if ( SHT_SYMTAB == sec->get_type() ||
              SHT_DYNSYM == sec->get_type() ) {
@@ -95,7 +95,7 @@ void XpuL1Library::loadFunctions() {
 }
 
 //-------------------------------------------------------------------------------------
-void XpuL1Library::loadFunction(Elf_Xword          no,
+void XpuL3Library::loadFunction(Elf_Xword          no,
                               const std::string& name,
                               Elf64_Addr         value,
                               Elf_Xword          size,
@@ -131,7 +131,7 @@ void XpuL1Library::loadFunction(Elf_Xword          no,
     }
 
 //-------------------------------------------------------------------------------------
-void XpuL1Library::writeFunction(std::string _name) {
+void XpuL3Library::writeFunction(std::string _name) {
     std::cout << "Loading " << _name << std::endl;
     std::unordered_map<std::string, FunctionInfo>::const_iterator _iterator = functionMap.find(_name);
     if(_iterator == functionMap.end()){
@@ -142,13 +142,13 @@ void XpuL1Library::writeFunction(std::string _name) {
         Elf_Xword _length= _iterator->second.length;
         for(int i = 0; i < _length; i++){
             uint32_t _value = *reinterpret_cast<int *>(_address + (8 * i));
-            xpuL2Driver->AXI_LITE_write(0, _value);
+            XpuL4Driver->AXI_LITE_write(0, _value);
         }        
     }
 }
 
 //-------------------------------------------------------------------------------------
-void XpuL1Library::writeData(void* _address, uint32_t _length){
+void XpuL3Library::writeData(void* _address, uint32_t _length){
 
 }
 

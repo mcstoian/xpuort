@@ -5,16 +5,21 @@
 // See LICENSE.TXT for details.
 //
 //-------------------------------------------------------------------------------------
-#include <XpuL0OnnxGraph.h>
+#pragma once
+#include <XpuL1OnnxRuntime.h>
 
 //-------------------------------------------------------------------------------------
-int main(int _argc, char* _argv[]) { 
-  if(_argc != 2) {
-    std::cout << "usage: xpuort model.onnx" << std::endl;
-    return 1;
-  }
 
-  XpuL0OnnxGraph* _xpuL1OnnxGraph = new XpuL0OnnxGraph(_argv[1]);
-  return 0;
-}
+class XpuL0OnnxGraph {
+
+public:
+  XpuL0OnnxGraph(str::string _filename);
+
+  ~XpuL0OnnxGraph();
+
+  void load();
+
+  private:
+    XpuL1OnnxRuntime *xpuL1OnnxRuntime;
+};
 //-------------------------------------------------------------------------------------

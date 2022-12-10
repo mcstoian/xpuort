@@ -3,7 +3,7 @@
 //                             The XPU-ORT Project
 //
 // See LICENSE.TXT for details.
-// XpuL2Driver -- XPU AXI Driver
+// XpuL4Driver -- XPU AXI Driver
 //-------------------------------------------------------------------------------------
 /*
 	example of basic program for the xpu system.
@@ -229,12 +229,12 @@
 #define DMA_S2MM_DMACR_X_MM2S_LENGTH_X_LENGTH 0
 
 //-------------------------------------------------------------------------------------
-class XpuL2Driver {
+class XpuL4Driver {
 
 public:
-	XpuL2Driver();
+	XpuL4Driver();
 
- 	~XpuL2Driver();
+ 	~XpuL4Driver();
 
 	void init();
 	void AXI_LITE_write(void* _address, uint32_t value);
@@ -254,6 +254,7 @@ public:
 	void print_main_mem(void* address, int32_t nr_bytes, uint32_t word_size);
 
 };
+
 //-------------------------------------------------------------------------------------
 
 

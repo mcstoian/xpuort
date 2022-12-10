@@ -5,23 +5,27 @@
 // See LICENSE.TXT for details.
 //
 //-------------------------------------------------------------------------------------
-#pragma once
-#include <onnx/onnx_pb.h>
-#include <XpuL1Library.h>
+#include <XpuL3Library.h>
 
 //-------------------------------------------------------------------------------------
-
-class XpuL0Ort {
+class XpuL2Resolver {
 
 public:
-  XpuL0Ort(onnx::GraphProto _graph);
+	XpuL2Resolver();
 
-  ~XpuL0Ort();
+ 	~XpuL2Resolver();
 
-  void process();
+	void uploadFunction(std::string _name);
+	void uploadData(void* _address, uint32_t _length);
 
-  private:
-    onnx::GraphProto graph;
-    XpuL1Library *xpuL1Library;
+private:
+	XpuL3Library* xpuL2Library;
+
 };
 //-------------------------------------------------------------------------------------
+
+
+
+
+
+

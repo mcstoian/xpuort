@@ -17,7 +17,7 @@ https://elfio.sourceforge.net/elfio.pdf
 
 #include <iostream>
 #include <elfio/elfio_dump.hpp>
-#include <XpuL2Driver.h>
+#include <XpuL4Driver.h>
 
 using namespace ELFIO;
 
@@ -27,12 +27,12 @@ struct FunctionInfo {
 };
 
 //-------------------------------------------------------------------------------------
-class XpuL1Library {
+class XpuL3Library {
 
 public:
-	XpuL1Library();
+	XpuL3Library();
 
- 	~XpuL1Library();
+ 	~XpuL3Library();
 
 	void loadFunctions();
 	void loadFunction(Elf_Xword no,
@@ -49,7 +49,7 @@ public:
 private:
     elfio reader;
 	std::unordered_map<std::string, FunctionInfo> functionMap;
-	XpuL2Driver* xpuL2Driver;
+	XpuL4Driver* XpuL4Driver;
 
 };
 //-------------------------------------------------------------------------------------
