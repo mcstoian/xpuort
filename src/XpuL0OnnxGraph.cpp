@@ -22,14 +22,13 @@ XpuL0OnnxGraph::~XpuL0OnnxGraph() {
 
 //-------------------------------------------------------------------------------------
 void XpuL0OnnxGraph::load(std::string _filename) {
-  std::ifstream _input;
-  _input.open(_filename, std::ios::ate | std::ios::binary); // open file and move current
+  std::ifstream input(_filename, std::ios::ate | std::ios::binary); // open file and move current
                                            // position in file to the end
 
-  std::streamsize size = _input.tellg(); // get current position in file
-  _input.seekg(0, std::ios::beg);        // move to start of file
+  std::streamsize size = input.tellg(); // get current position in file
+  input.seekg(0, std::ios::beg);        // move to start of file
   std::vector<char> buffer(size);
-  _input.read(buffer.data(), size); // read raw data
+  input.read(buffer.data(), size); // read raw data
 
   onnx::ModelProto model;
   model.ParseFromArray(buffer.data(), size); // parse protobuf
