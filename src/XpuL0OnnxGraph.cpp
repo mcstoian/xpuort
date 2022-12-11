@@ -27,6 +27,7 @@ void XpuL0OnnxGraph::load(std::string _filename) {
 
   std::streamsize size = input.tellg(); // get current position in file
   input.seekg(0, std::ios::beg);        // move to start of file
+//  std::cout << "size===" << size << std::endl;
   std::vector<char> buffer(size);
   input.read(buffer.data(), size); // read raw data
 

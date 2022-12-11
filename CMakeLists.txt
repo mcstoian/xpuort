@@ -35,6 +35,11 @@ find_path(ONNX_INCLUDE_DIR
     HINTS ${ONNX_ROOT}/include
 )
 
+include(FetchContent)
+
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz)
+FetchContent_MakeAvailable(json)
+
 add_executable(xpuort
     ${CMAKE_SOURCE_DIR}/src/XpuL4Driver.cpp
     ${CMAKE_SOURCE_DIR}/src/XpuL3Library.cpp
@@ -57,6 +62,8 @@ target_link_libraries(xpuort PUBLIC
     ${PROTOBUF_LIBRARIES}
     ${ONNX_LIBRARIES}
 )
+
+target_link_libraries(xpuort PRIVATE nlohmann_json::nlohmann_json)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

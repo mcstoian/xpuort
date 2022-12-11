@@ -7,114 +7,28 @@
 //-------------------------------------------------------------------------------------
 #include <XpuL3Library.h>
 
-#define DUMP_DEC_FORMAT( width ) \
-    std::setw( width ) << std::setfill( ' ' ) << std::dec << std::right
-#define DUMP_HEX0x_FORMAT( width ) \
-    "0x" << std::setw( width ) << std::setfill( '0' ) << std::hex << std::right
-#define DUMP_HEX_FORMAT( width ) \
-    std::setw( width ) << std::setfill( '0' ) << std::hex << std::right
-#define DUMP_STR_FORMAT( width ) \
-    std::setw( width ) << std::setfill( ' ' ) << std::hex << std::left
-
 //-------------------------------------------------------------------------------------
 XpuL3Library::XpuL3Library() {
     xpuL4Driver = new XpuL4Driver();
-
-    if(!reader.load("lib/libxpu.so") ) {
-        printf( "File [libxpu.so] is not found!\n");
-        exit(1);
-    } else {
-        loadFunctions();
-    }
-/*
-    dump::header( std::cout, reader );
-    dump::section_headers( std::cout, reader );
-    dump::segment_headers( std::cout, reader );
-    dump::symbol_tables( std::cout, reader );
-    dump::notes( std::cout, reader );
-    dump::modinfo( std::cout, reader );
-    dump::dynamic_tags( std::cout, reader );
-    dump::section_datas( std::cout, reader );
-    dump::segment_datas( std::cout, reader );
-*/
-
+    std::ifstream f("./lib/libxpu.json");
+    json libxpu = json::parse(f);
+    loadFunctions();
 }
 
 //-------------------------------------------------------------------------------------
 void XpuL3Library::loadFunctions() {
-    for ( const auto& sec : reader.sections ) { // For all sections
-        if ( SHT_SYMTAB == sec->get_type() ||
-             SHT_DYNSYM == sec->get_type() ) {
-            const_symbol_section_accessor symbols( reader, sec.get() );
-
-            Elf_Xword sym_no = symbols.get_symbols_num();
-            if ( sym_no == 0 ) {
-                continue;
-            }
-/*
-            std::cout << "Symbol table (" << sec->get_name() << ")" << std::endl;
-            if ( reader.get_class() == ELFCLASS32 ) { // Output for 32-bit
-                std::cout << "[  Nr ] Value      Size       Type    Bind     "
-                       " Sect Name"
-                    << std::endl;
-            }
-            else { // Output for 64-bit
-                std::cout << "[  Nr ] Value              Size               "
-                       "Type    Bind      Sect"
-                    << std::endl
-                    << "        Name" << std::endl;
-            }*/
-            for ( Elf_Xword i = 0; i < sym_no; ++i ) {
-                std::string   name;
-                Elf64_Addr    value   = 0;
-                Elf_Xword     size    = 0;
-                unsigned char bind    = 0;
-                unsigned char type    = 0;
-                Elf_Half      section = 0;
-                unsigned char other   = 0;
-                symbols.get_symbol( i, name, value, size, bind, type, section, other );
-                loadFunction(i, name, value, size, bind, type, section, reader.get_class());
-            }
-
-//            std::cout << std::endl;
-        }
+    std::cout << libxpu.dump() << std::endl;
+    for (json::iterator _it = libxpu.begin(); _it != libxpu.end(); ++_it) {
+        std::cout << *_it << '\n';
     }
+
 }
 
 //-------------------------------------------------------------------------------------
-void XpuL3Library::loadFunction(Elf_Xword          no,
-                              const std::string& name,
-                              Elf64_Addr         value,
-                              Elf_Xword          size,
-                              unsigned char      bind,
-                              unsigned char      type,
-                              Elf_Half           section,
-                              unsigned int       elf_class ) {
+void XpuL3Library::loadFunction() {
 //        std::ios_base::fmtflags original_flags = out.flags();
-        std::cout << "[" << name << "]: " << DUMP_HEX0x_FORMAT( 16 ) << value << " : "<< DUMP_HEX0x_FORMAT( 16 ) << size << std::endl;
-        functionMap.insert({ name, { value, size } });
-//        functionMap[name] = {value, size};
-/*        if ( elf_class == ELFCLASS32 ) { // Output for 32-bit
-            std::cout << "[" << DUMP_DEC_FORMAT( 5 ) << no << "] "
-                << DUMP_HEX0x_FORMAT( 8 ) << value << " "
-                << DUMP_HEX0x_FORMAT( 8 ) << size << " " << DUMP_STR_FORMAT( 7 )
-//                << str_symbol_type( type ) << " " << DUMP_STR_FORMAT( 8 )
-//                << str_symbol_bind( bind ) << " " << DUMP_DEC_FORMAT( 5 )
-                << section << " " << DUMP_STR_FORMAT( 1 ) << name << " "
-                << std::endl;
-        }
-        else { // Output for 64-bit
-            std::cout << "[" << DUMP_DEC_FORMAT( 5 ) << no << "] "
-                << DUMP_HEX0x_FORMAT( 16 ) << value << " "
-                << DUMP_HEX0x_FORMAT( 16 ) << size << " "
-//                << DUMP_STR_FORMAT( 7 ) << str_symbol_type( type ) << " "
-//                << DUMP_STR_FORMAT( 8 ) << str_symbol_bind( bind ) << " "
-                << DUMP_DEC_FORMAT( 5 ) << section << " " << std::endl
-                << "        " << DUMP_STR_FORMAT( 1 ) << name << " "
-                << std::endl;
-        }
-*/
-//        out.flags( original_flags );
+//        std::cout << "[" << name << "]: " << DUMP_HEX0x_FORMAT( 16 ) << value << " : "<< DUMP_HEX0x_FORMAT( 16 ) << size << std::endl;
+//        functionMap.insert({ name, { value, size } });
     }
 
 //-------------------------------------------------------------------------------------
@@ -125,11 +39,12 @@ void XpuL3Library::writeFunction(std::string _name) {
         std::cout << "Could not find [" << _name << "] in library" << std::endl;
         exit(1);
     } else {
-        Elf64_Addr _address = _iterator->second.address;
-        Elf_Xword _length= _iterator->second.length;
-        for(int i = 0; i < _length; i++){
-            uint32_t _value = *reinterpret_cast<int *>(_address + (8 * i));
-            xpuL4Driver->AXI_LITE_write(0, _value);
+//        std::string _name = _iterator->second.name;
+        uint32_t _size = _iterator -> second.size;
+        uint32_t* _data = _iterator -> second.data;
+        for(int i = 0; i < _size; i++){
+            uint32_t _dataWord = *reinterpret_cast<int *>(_data + (8 * i));
+            xpuL4Driver -> AXI_LITE_write(0, _dataWord);
         }        
     }
 }
