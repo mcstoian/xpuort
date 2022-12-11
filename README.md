@@ -13,14 +13,12 @@ make -j$(nproc) && make install
 # Build xpuort
 ```
 git clone https://github.com/mcstoian/xpuort.git
-cd xpuort
-mkdir build
-cd build
-cmake -DONNX_ROOT=${ONNX_ROOT} ../
-make -j$(nproc)
+cd $GIT_ROOT/xpuort
+./build.sh
 ```
 
 # Run xpuort
 ```
-./xpuort <model.onnx>
+cd $GIT_ROOT/xpuort
+./run.sh
 ```
