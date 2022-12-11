@@ -26,11 +26,16 @@ https://elfio.sourceforge.net/elfio.pdf
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
-struct FunctionInfo {
-      std::string 			name;
-      uint32_t              size;
-      uint32_t* 			data;
+struct FunctionCode {
+    uint32_t                byteCount;
+    uint32_t                address;
+    std::vector<uint8_t>    code;
 };
+
+struct FunctionInfo {
+    std::vector<FunctionCode>    codes;
+};
+
 
 //-------------------------------------------------------------------------------------
 class XpuL3Library {
@@ -41,8 +46,10 @@ public:
  	~XpuL3Library();
 
 	void loadFunctions();
-	void loadFunction();
-	void writeFunction(std::string _name);
+    void loadFunction(json::iterator _it);
+    FunctionInfo* getFunction(std::string _name);
+
+	void writeFunction(FunctionInfo* _functionInfo);
 	void writeData(void* _address, uint32_t _length);
 
 private:

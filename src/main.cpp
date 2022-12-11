@@ -9,6 +9,7 @@
 
 //-------------------------------------------------------------------------------------
 int main(int _argc, char* _argv[]) { 
+  std::cout << "Xpuort v0.1..." << std::endl;
   if(_argc != 2) {
     std::cout << "usage: xpuort model.onnx" << std::endl;
     return 1;

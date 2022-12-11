@@ -22,6 +22,8 @@ XpuL0OnnxGraph::~XpuL0OnnxGraph() {
 
 //-------------------------------------------------------------------------------------
 void XpuL0OnnxGraph::load(std::string _filename) {
+  std::cout << "Loading " << _filename << " ..." << std::endl;
+
   std::ifstream input(_filename, std::ios::ate | std::ios::binary); // open file and move current
                                            // position in file to the end
 
@@ -35,7 +37,7 @@ void XpuL0OnnxGraph::load(std::string _filename) {
   model.ParseFromArray(buffer.data(), size); // parse protobuf
 
   ONNX_NAMESPACE::shape_inference::InferShapes(model);
-  onnx::GraphProto graph = model.graph();
+  graph = model.graph();
 }
 
 //-------------------------------------------------------------------------------------
@@ -48,12 +50,12 @@ void XpuL0OnnxGraph::process() {
     if (shape.dim_size() > 0) {
       int size = shape.dim_size();
       std::cout << name << " : " << shape.dim(0).dim_param();
-      xpuL1OnnxRuntime -> run(name);
       for (int i = 1; i < size; i++) {
         std::cout << ", " << shape.dim(i).dim_value();
 //        xpuDriver -> writeData()
       }
       std::cout << std::endl;
+      xpuL1OnnxRuntime -> run(name);
     }
   }
 
