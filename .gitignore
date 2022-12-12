@@ -50,6 +50,7 @@ Mkfile.old
 dkms.conf
 .gradle
 build
+tmp
 .DS_Store
 
 # vivado project folders 
