@@ -23,9 +23,25 @@ void XpuL4Driver::init() {
 
 
 	void* xpu_ptr = mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED, memory_file_descriptor, XPU_BASE_ADDR );
+	if(xpu_ptr == -1){
+		std::cout << "xpu_ptr could not be allocated!" << std::endl;
+		exit(1);
+	}
 	void* dma_ptr = mmap(NULL, 65535, PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, DMA_BASE_ADDR);
+	if(dma_ptr == -1){
+		std::cout << "dma_ptr could not be allocated!" << std::endl;
+		exit(1);
+	}
 	void* data_in_ptr  = mmap(NULL, NR_TRANSACTIONS * sizeof(uint32_t), PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, 0x19000000);
+	if(data_in_ptr == -1){
+		std::cout << "data_in_ptr could not be allocated!" << std::endl;
+		exit(1);
+	}
 	void* data_out_ptr = mmap(NULL, NR_TRANSACTIONS * sizeof(uint32_t), PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, 0x1A000000);
+	if(data_out_ptr == -1){
+		std::cout << "data_out_ptr could not be allocated!" << std::endl;
+		exit(1);
+	}
 
 
 
