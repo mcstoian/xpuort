@@ -14,6 +14,16 @@
  */
 //-------------------------------------------------------------------------------------
 #pragma once
+#include <stdio.h>
+#include <cstdio>
+#include <cstdint>
+#include <stdio.h>
+#include <string.h>
+#include <stdint.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <termios.h>
+#include <sys/mman.h>
 
 //-------------------------------------------------------------------------------------
 // XPU defines
@@ -242,18 +252,18 @@ public:
 
 	void XPU_write_program_file_1(void * addr); // data in ; ixload+ data in ; data out; addr regs: 0-100
 	void XPU_write_program_file_2(void * addr); // data in ; no compute ; data out; addr regs: 0-0
-	void dma_mm2s_status(uint32_t * dma_ptr);
-	void dma_s2mm_status(uint32_t * dma_ptr);
+	void dma_mm2s_status(void* dma_ptr);
+	void dma_s2mm_status(void* dma_ptr);
 	void print_all_registers_mm2s(void * dma_ptr, int tag);
 	void print_all_registers_s2mm(void * dma_ptr, int tag);
-	void dma_mm2s_wait_transfers_complete(uint32_t * dma_ptr);
-	void dma_s2mm_wait_transfers_complete(uint32_t * dma_ptr);
-	void DMA_XPU_read(uint32_t * dma_ptr, uint32_t ddr_start_addr, uint32_t transfer_length);
-	void DMA_XPU_write(uint32_t * dma_ptr, uint32_t ddr_start_addr, uint32_t transfer_length );
-	void dma_reset(uint32_t * dma_ptr);
+	void dma_mm2s_wait_transfers_complete(void* dma_ptr);
+	void dma_s2mm_wait_transfers_complete(void* dma_ptr);
+	void DMA_XPU_read(void* dma_ptr, uint32_t ddr_start_addr, uint32_t transfer_length);
+	void DMA_XPU_write(void* dma_ptr, uint32_t ddr_start_addr, uint32_t transfer_length );
+	void dma_reset(void* dma_ptr);
 	void print_main_mem(void* address, int32_t nr_bytes, uint32_t word_size);
-	void print_all_registers_mm2s(uint32_t* dma_ptr, int tag);
-	void print_all_registers_s2mm(uint32_t* dma_ptr, int tag);
+//	void print_all_registers_mm2s(void* dma_ptr, int tag);
+//	void print_all_registers_s2mm(void* dma_ptr, int tag);
 
 };
 

@@ -15,7 +15,8 @@ int main(int _argc, char* _argv[]) {
     return 1;
   }
 
-  XpuL0OnnxGraph* _xpuL1OnnxGraph = new XpuL0OnnxGraph(_argv[1]);
+//  XpuL0OnnxGraph* _xpuL1OnnxGraph = new XpuL0OnnxGraph(_argv[1]);
+  new XpuL0OnnxGraph(_argv[1]);
   return 0;
 }
 //-------------------------------------------------------------------------------------
