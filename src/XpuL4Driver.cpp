@@ -31,7 +31,7 @@ void XpuL4Driver::init() {
 
     for(int i = 0 ; i < NR_TRANSACTIONS; i++ )					// data in generation
     {
-    	data_in_ptr[i]= 50;
+//    	data_in_ptr[i]= 50;
     }
 
     memset(data_out_ptr, 0, NR_TRANSACTIONS * sizeof(uint32_t) ); // Clear destination block
