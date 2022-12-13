@@ -21,6 +21,8 @@ void XpuL4Driver::init() {
 
 	int32_t memory_file_descriptor = open("/dev/mem", O_RDWR | O_SYNC);
 
+	long _pagesize = sysconf(_SC_PAGESIZE);
+	std::cout << "_pagesize=[" << _pagesize << "]" << std::endl;
 
 	void* xpu_ptr = mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED, memory_file_descriptor, XPU_BASE_ADDR );
 	if(xpu_ptr == -1){

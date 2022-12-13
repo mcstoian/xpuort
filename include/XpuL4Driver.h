@@ -25,6 +25,8 @@
 #include <fcntl.h>
 #include <termios.h>
 #include <sys/mman.h>
+#include <limits.h>
+#include <confname.h>
 
 //-------------------------------------------------------------------------------------
 // XPU defines
