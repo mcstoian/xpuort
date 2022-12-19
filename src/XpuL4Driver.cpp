@@ -13,6 +13,11 @@ XpuL4Driver::XpuL4Driver() {
 }
 
 //-------------------------------------------------------------------------------------
+XpuL4Driver::~XpuL4Driver() {
+	quit();
+}
+
+//-------------------------------------------------------------------------------------
 void XpuL4Driver::init() {
 //    uint32_t* xpu_ptr;
     uint64_t delay;
@@ -24,10 +29,10 @@ void XpuL4Driver::init() {
 //	long _pagesize = sysconf(_SC_PAGESIZE);
 //	std::cout << "_pagesize=[" << _pagesize << "]" << std::endl;
 
-	uint32_t* xpu_ptr = (uint32_t*)mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED, memory_file_descriptor, XPU_BASE_ADDR );
-	uint32_t* dma_ptr = (uint32_t*)mmap(NULL, 65535, PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, DMA_BASE_ADDR);
-	uint32_t* data_in_ptr  = (uint32_t*)mmap(NULL, NR_TRANSACTIONS * sizeof(uint32_t), PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, 0x19000000);
-	uint32_t* data_out_ptr = (uint32_t*)mmap(NULL, NR_TRANSACTIONS * sizeof(uint32_t), PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, 0x1A000000);
+	xpu_ptr = (uint32_t*)mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED, memory_file_descriptor, XPU_BASE_ADDR );
+	dma_ptr = (uint32_t*)mmap(NULL, 65535, PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, DMA_BASE_ADDR);
+	data_in_ptr  = (uint32_t*)mmap(NULL, NR_TRANSACTIONS * sizeof(uint32_t), PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, 0x19000000);
+	data_out_ptr = (uint32_t*)mmap(NULL, NR_TRANSACTIONS * sizeof(uint32_t), PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, 0x1A000000);
 
 
 
@@ -52,6 +57,7 @@ void XpuL4Driver::init() {
 
     xpu_status_reg = *((volatile unsigned *)(xpu_ptr + XPU_STATUS_REG_ADDR_OFFSET));	// write program file
 	printf("before loading program file : %x\n", xpu_status_reg);
+/*
 	printf("xpu: start program_file_load \n");
 	XPU_write_program_file_1(xpu_ptr + XPU_FIFO_PROGRAM_ADDR_OFFSET);
 	printf("xpu: end program_file_load \n");
@@ -62,7 +68,7 @@ void XpuL4Driver::init() {
 	printf("dma->xpu: end load data in\n");
 
 																						// interrupt ack
-	AXI_LITE_write(xpu_ptr + XPU_WRITE_INT_ACK_ADDR,1);
+	AXI_LITE_write(xpu_ptr + XPU_WRITE_INT_ACK_ADDR, 1);
 	for (delay = 0; delay < TIME_DELAY; delay++)
 	{
 		;
@@ -79,11 +85,16 @@ void XpuL4Driver::init() {
     printf("Destination memory block: ");
     print_main_mem(data_out_ptr, NR_TRANSACTIONS * sizeof(uint32_t), sizeof(uint32_t));
     printf("\n");
+    */
+}
 
-    																					// unmap memory regions
+
+//-------------------------------------------------------------------------------------
+void XpuL4Driver::quit(){
+// unmap memory regions
     munmap(dma_ptr,65535);
-    munmap(data_in_ptr,NR_TRANSACTIONS * sizeof(uint32_t));
-    munmap(data_out_ptr,NR_TRANSACTIONS * sizeof(uint32_t));
+    munmap(data_in_ptr, NR_TRANSACTIONS * sizeof(uint32_t));
+    munmap(data_out_ptr, NR_TRANSACTIONS * sizeof(uint32_t));
     munmap(xpu_ptr,4096);
 }
 

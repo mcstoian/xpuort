@@ -249,6 +249,7 @@ public:
  	~XpuL4Driver();
 
 	void init();
+	void quit();
 	void AXI_LITE_write(uint32_t* _address, uint32_t value);
 	uint32_t AXI_LITE_read(uint32_t* _address);
 
@@ -266,6 +267,12 @@ public:
 	void print_main_mem(uint32_t* address, int32_t nr_bytes, uint32_t word_size);
 //	void print_all_registers_mm2s(uint32_t* dma_ptr, int tag);
 //	void print_all_registers_s2mm(uint32_t* dma_ptr, int tag);
+
+private:
+	uint32_t* xpu_ptr;
+	uint32_t* dma_ptr;
+	uint32_t* data_in_ptr;
+	uint32_t* data_out_ptr;
 
 };
 
