@@ -268,6 +268,8 @@ public:
 //	void print_all_registers_mm2s(uint32_t* dma_ptr, int tag);
 //	void print_all_registers_s2mm(uint32_t* dma_ptr, int tag);
 
+	void loadProgram();
+	
 private:
 	uint32_t* xpu_ptr;
 	uint32_t* dma_ptr;

@@ -19,6 +19,7 @@ XpuL3Library::XpuL3Library() {
     }
     libxpu = json::parse(_file);
     loadFunctions();
+    xpuL4Driver->loadCode(getFunction());
 }
 
 //-------------------------------------------------------------------------------------

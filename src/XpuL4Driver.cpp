@@ -34,29 +34,14 @@ void XpuL4Driver::init() {
 	data_in_ptr  = (uint32_t*)mmap(NULL, NR_TRANSACTIONS * sizeof(uint32_t), PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, 0x19000000);
 	data_out_ptr = (uint32_t*)mmap(NULL, NR_TRANSACTIONS * sizeof(uint32_t), PROT_READ | PROT_WRITE, MAP_SHARED, memory_file_descriptor, 0x1A000000);
 
-
-
-    for(int i = 0 ; i < NR_TRANSACTIONS; i++ )					// data in generation
-    {
-    	data_in_ptr[i]= 50;
-    }
-
-    memset(data_out_ptr, 0, NR_TRANSACTIONS * sizeof(uint32_t) ); // Clear destination block
-
-    printf("AXI xpu write program + run + dma test.\n");
-
-    printf("Source memory block:      ");
-    print_main_mem(data_in_ptr, NR_TRANSACTIONS * sizeof(uint32_t), sizeof(uint32_t));
-
-    printf("Destination memory block: ");
-    print_main_mem(data_out_ptr, NR_TRANSACTIONS * sizeof(uint32_t), sizeof(uint32_t));
-
-
+    printf("AXI xpu write program memory...\n");
 
     dma_reset(dma_ptr);
 
     xpu_status_reg = *((volatile unsigned *)(xpu_ptr + XPU_STATUS_REG_ADDR_OFFSET));	// write program file
-	printf("before loading program file : %x\n", xpu_status_reg);
+//	printf("before loading program file : %x\n", xpu_status_reg);
+    loadCode(xpu_ptr + XPU_FIFO_PROGRAM_ADDR_OFFSET, libraryCodeMain);
+
 /*
 	printf("xpu: start program_file_load \n");
 	XPU_write_program_file_1(xpu_ptr + XPU_FIFO_PROGRAM_ADDR_OFFSET);
@@ -111,6 +96,12 @@ uint32_t XpuL4Driver::AXI_LITE_read(uint32_t* addr)
 	uint32_t return_value;
 	return_value = *((volatile unsigned *)(addr));
 	return return_value;
+}
+
+//-------------------------------------------------------------------------------------
+void XpuL4Driver::loadCode(uint32_t* addr, uint32_t*) {
+	AXI_LITE_write(addr, 0x6f000000);
+
 }
 
 //-------------------------------------------------------------------------------------

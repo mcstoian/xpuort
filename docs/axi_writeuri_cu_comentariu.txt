@@ -137,7 +137,7 @@ void XPU_write_program_file_1(void * addr) // data in ; ixload+ data in ; data o
 
 	void initial_runs()
 	{
-		AXI_LITE_write(addr, 0x67000000);	//	apel pt pload
+		AXI_LITE_write(addr, 0x67000000);	//	apel pt 
 		AXI_LITE_write(addr, 0x10000000);	
 		AXI_LITE_write(addr, 0x67000002);	// apel primitiva de initial 
 		AXI_LITE_write(addr, 0x10000000);
@@ -145,7 +145,7 @@ void XPU_write_program_file_1(void * addr) // data in ; ixload+ data in ; data o
 	
 	void set_address_register(int controller_reg, int array_reg) 
 	{
-		AXI_LITE_write(addr, 0x67000003);	// apel prim_set_addr_regs
+PRUN(3)	--->	AXI_LITE_write(addr, 0x67000003);	// apel prim_set_addr_regs
 		AXI_LITE_write(addr, 0x10000000);
 			 // function arguments for set addr regs
 		AXI_LITE_write(addr, 0x00000000);   // controller_reg aici valoarea 0
